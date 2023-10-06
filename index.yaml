@@ -138,6 +138,16 @@ entries:
   class-enroll:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-06T07:12:57.084087304Z"
+    description: A Helm chart for Kubernetes
+    digest: 9e3dd7865eee1a4430484ce4aa818752af02f3ae66183d9bfebbcd510cb7021c
+    name: class-enroll
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-enroll-1.0.2/class-enroll-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T07:07:42.397753106Z"
     description: A Helm chart for Kubernetes
     digest: 768bf6173b6ea28e2eb77a58e81498079f580c3ea00903cc30141122434e5f78
@@ -255,4 +265,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T07:07:42.397781707Z"
+generated: "2023-10-06T07:12:57.084137405Z"
