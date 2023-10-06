@@ -32,6 +32,8 @@ spec:
           containerPort: 6379
       imagePullSecrets:
       - name: regsecret
+      nodeSelector:	
+        application: upclass
   replicas: 1
   selector:
     matchLabels:
