@@ -1,0 +1,168 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: emailservice
+  labels:
+    app: emailservice
+
+spec:
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      name: emailservice
+      labels:
+        app: emailservice
+    spec:
+      containers:
+      - name: emailservice
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        env:
+        - name: APP_FRONTEND_DOMAIN
+          value: "https://upclass-edu.web.app"
+        - name: APP_NAME
+          value: emailservice
+        - name: KAFKA_URL
+          value:  "kafkasvc.classns-logging.svc.cluster.local:9092"
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+        - name: ENV
+          value: "prod"
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        ports:
+        - name: flask-http
+          containerPort: 5000
+      initContainers:
+      - name: init-service
+        image: docker.laniakea.local:8080/backend/tools:latest
+        env:
+        - name: APP_NAME
+          value: emailservice
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+        command: ["python", "./initcontainer.py"]
+      imagePullSecrets:
+      - name: regsecret
+      nodeSelector:
+        application: upclass
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emailservice
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: workeremailservice
+  labels:
+    app: workeremailservice
+
+spec:
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      name: workeremailservice
+      labels:
+        app: workeremailservice
+    spec:
+      containers:
+      - name: emailserviceworker
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        command: ["celery"]
+        args: ["-A", "worker.celery", "worker", "--loglevel=info"]
+        env:
+        - name: APP_NAME
+          value: emailservice
+        - name: KAFKA_URL
+          value:  "kafkasvc.classns-logging.svc.cluster.local:9092"
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: ENV
+          value: "prod"
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+      initContainers:
+      - name: init-service
+        image: docker.laniakea.local:8080/backend/tools:latest
+        env:
+        - name: APP_NAME
+          value: emailservice
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+        command: ["python", "./initcontainer.py"]
+      imagePullSecrets:
+      - name: regsecret
+      nodeSelector:
+        application: upclass
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workeremailservice
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: workeremailservice
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: workeremailservice
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50

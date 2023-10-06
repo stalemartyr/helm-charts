@@ -1,0 +1,124 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-service-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "Access-Control-Allow-Origin: $http_origin";
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, DELETE, PATCH
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/websocket-services: "socketservice"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: 
+    http:
+      paths:
+      - path: /socket.io
+        pathType: Prefix
+        backend:
+          service:
+            name: socketservice
+            port:
+              number: 5000
+      - path: /api/auth
+        pathType: Prefix
+        backend:
+          service:
+            name: authservice
+            port:
+              number: 5000
+      - path: /api/email
+        pathType: Prefix
+        backend:
+          service:
+            name: emailservice
+            port:
+              number: 5000
+      - path: /api/user
+        pathType: Prefix
+        backend:
+          service:
+            name: userservice
+            port:
+              number: 5000
+      - path: /api/references
+        pathType: Prefix
+        backend:
+          service:
+            name: referenceservice
+            port:
+              number: 5000
+      - path: /api/system
+        pathType: Prefix
+        backend:
+          service:
+            name: referenceservice
+            port:
+              number: 5000
+      - path: /api/messages
+        pathType: Prefix
+        backend:
+          service:
+            name: messageservice
+            port:
+              number: 5000
+      - path: /api/notifications
+        pathType: Prefix
+        backend:
+          service:
+            name: notificationservice
+            port:
+              number: 5000
+      - path: /api/campus
+        pathType: Prefix
+        backend:
+          service:
+            name: campusservice
+            port:
+              number: 5000
+      - path: /api/course
+        pathType: Prefix
+        backend:
+          service:
+            name: courseservice
+            port:
+              number: 5000
+      - path: /api/lesson
+        pathType: Prefix
+        backend:
+          service:
+            name: contentservice
+            port:
+              number: 5000
+      - path: /api/content
+        pathType: Prefix
+        backend:
+          service:
+            name: contentservice
+            port:
+              number: 5000
+      - path: /api/exam
+        pathType: Prefix
+        backend:
+          service:
+            name: examservice
+            port:
+              number: 5000
+      - path: /api/file
+        pathType: Prefix
+        backend:
+          service:
+            name: fileservice
+            port:
+              number: 5000
+      - path: /api/enroll
+        pathType: Prefix
+        backend:
+          service:
+            name: enrollservice
+            port:
+              number: 5000

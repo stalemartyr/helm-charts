@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: notificationservice
+  labels:
+    app: notificationservice
+
+spec:
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      name: notificationservice
+      labels:
+        app: notificationservice
+    spec:
+      containers:
+      - name: notificationservice
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        env:
+        - name: APP_NAME
+          value: notificationservice
+        - name: KAFKA_URL
+          value:  "kafkasvc.classns-logging.svc.cluster.local:9092"
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+        - name: ENV
+          value: "prod"
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        ports:
+        - name: flask-http
+          containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /api/notifications/health
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 3
+      initContainers:
+      - name: init-service
+        image: docker.laniakea.local:8080/backend/tools:latest
+        env:
+        - name: APP_NAME
+          value: notificationservice
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+      imagePullSecrets:
+      - name: regsecret
+      nodeSelector:
+        application: upclass
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notificationservice

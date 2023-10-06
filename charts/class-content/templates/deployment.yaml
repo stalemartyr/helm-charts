@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: contentservice
-  namespace: classns
+  namespace: {{ .Values.namespace }}
   labels:
     app: contentservice
 
@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       name: contentservice
-      namespace: classns
+      namespace: {{ .Values.namespace }}
       labels:
         app: contentservice
     
@@ -89,17 +89,3 @@ spec:
   selector:
     matchLabels:
       app: contentservice
-
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: contentservice
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: contentservice
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50

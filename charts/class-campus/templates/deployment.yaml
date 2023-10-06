@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: campusservice
-  namespace: classns
+  namespace: {{ .Values.namespace }}
   labels:
     app: campusservice
 
@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       name: campusservice
-      namespace: classns
+      namespace: {{ .Values.namespace }}
       labels:
         app: campusservice
 
@@ -96,19 +96,6 @@ spec:
   selector:
     matchLabels:
       app: campusservice
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: campusservice
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: campusservice
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
 
 
 

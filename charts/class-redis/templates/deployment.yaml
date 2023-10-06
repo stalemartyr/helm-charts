@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: redisservice
+  labels:
+    app: redisservice
+
+spec:
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      name: redisservice
+      labels:
+        app: redisservice
+    spec:
+      containers:
+      - name: redisservice
+        image: redis:6.0.5
+        env:
+        - name: APP_NAME
+          value: redisservice
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        ports:
+        - name: http
+          containerPort: 6379
+      imagePullSecrets:
+      - name: regsecret
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redisservice

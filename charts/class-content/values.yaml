@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+namespace: classns-dev
+
 image:
   registry: docker.laniakea.local:8080
   repository: backend/contentservice

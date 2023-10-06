@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrollservice
+  namespace: classns
+  labels:
+    app: enrollservice
+
+spec:
+  template:
+    metadata:
+      name: enrollservice
+      namespace: classns
+      labels:
+        app: enrollservice
+
+    spec:
+      containers:
+      - name: enrollservice
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        env:
+        - name: APP_NAME
+          value: enrollservice
+        - name: KAFKA_URL
+          value: "kafkasvc.classns-logging.svc.cluster.local:9092"
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: ENV
+          value: "prod"
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "service.name=enrollservice"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://192.168.254.6:4318"
+        - name: VAULT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: vaulttoken
+              key: token
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        imagePullPolicy: Always
+        ports:
+        - name: flask-http
+          containerPort: 5000
+        # livenessProbe:
+        #   httpGet:
+        #     path: /api/enroll/health
+        #     port: 5000
+        #   initialDelaySeconds: 20
+        #   periodSeconds: 3
+      
+      initContainers:
+      - name: init-service
+        image: docker.laniakea.local:8080/backend/tools:latest
+        env:
+        - name: APP_NAME
+          value: enrollservice
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+      imagePullSecrets:
+      - name: regsecret
+      nodeSelector:
+        application: upclass
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enrollservice
+

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: courseservice
   name: courseservice
-  namespace: classns
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
   - name: http
