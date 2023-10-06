@@ -153,6 +153,16 @@ spec:
             secretKeyRef:
               name: appsecret
               key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
         - name: ENV
           value: "prod"
         resources:
