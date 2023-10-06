@@ -28,17 +28,22 @@ spec:
             secretKeyRef:
               name: appsecret
               key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
         - name: ENV
           value: "prod"
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: "service.name=enrollservice"
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: "http://192.168.254.6:4318"
-        - name: VAULT_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: vaulttoken
-              key: token
         resources:
           requests:
             memory: "{{ .Values.resources.requests.memory }}"
