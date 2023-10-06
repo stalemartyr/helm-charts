@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: courseservice
-  namespace: classns
+  namespace: {{ .Values.namespace }}
   labels:
     app: courseservice
 
@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       name: courseservice
-      namespace: classns
+      namespace: {{ .Values.namespace }}
       labels:
         app: courseservice
     spec:
