@@ -49,12 +49,12 @@ spec:
         ports:
         - name: flask-http
           containerPort: 5000
-        # livenessProbe:
-        #   httpGet:
-        #     path: /api/references/health
-        #     port: 5000
-        #   initialDelaySeconds: 20
-        #   periodSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /api/references/health
+            port: 5000
+          initialDelaySeconds: 60
+          periodSeconds: 3
       initContainers:
       - name: init-service
         image: docker.laniakea.local:8080/backend/tools:latest
