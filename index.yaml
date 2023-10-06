@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  class-auth:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-10-06T03:24:29.92686416Z"
+    description: A Helm chart for Kubernetes
+    digest: 805a38bb111e711f81462f316c3d98a65c821f2e062809671eccf2a99f74db11
+    name: class-auth
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-auth-0.2.0/class-auth-0.2.0.tgz
+    version: 0.2.0
+generated: "2023-10-06T03:24:29.92686906Z"
