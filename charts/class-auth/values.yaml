@@ -1,0 +1,21 @@
+# Default values for class-auth.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  registry: docker.laniakea.local:8080
+  repository: backend/authservice
+  pullPolicy: Always
+  tag: latest
+
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+

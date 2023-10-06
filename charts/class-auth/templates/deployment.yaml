@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: classns
+  name: authservice
+  labels:
+    app: authservice
+    project: upclass
+
+spec:
+  template:
+    metadata:
+      namespace: classns
+      name: authservice
+      labels:
+        app: authservice
+        project: upclass
+    spec:
+      containers:
+      - name: authservice
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        env:
+        - name: APP_NAME
+          value: authservice
+        - name: KAFKA_URL
+          value:  "kafkasvc.classns-logging.svc.cluster.local:9092"
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+        - name: ENV
+          value: "prod"
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "service.name=authservice"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://192.168.254.6:4318"
+        - name: GEOLOCATION_PATTERN
+          value: "https://nominatim.openstreetmap.org/reverse?format=json&lat={LATITUDE}&lon={LONGITUDE}&zoom=18&addressdetails=1"
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        ports:
+        - name: flask-http
+          containerPort: 5000
+        # livenessProbe:
+        #   httpGet:
+        #     path: /api/auth/health
+        #     port: 5000
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 5
+      initContainers:
+      - name: init-service
+        image: docker.laniakea.local:8080/backend/tools:latest
+        env:
+        - name: APP_NAME
+          value: authservice
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+      imagePullSecrets:
+      - name: regsecret
+      nodeSelector:
+        application: upclass
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authservice
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: authservice
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: authservice
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
