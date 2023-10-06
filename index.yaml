@@ -76,6 +76,16 @@ entries:
   class-courses:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-06T06:41:09.466197695Z"
+    description: A Helm chart for Kubernetes
+    digest: 576384b1b845da8c1403980bb018b56aac5ce08f9b3e87d65594a7bb39508047
+    name: class-courses
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-courses-1.0.1/class-courses-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T04:22:48.604827338Z"
     description: A Helm chart for Kubernetes
     digest: f1c9c1684fe81c745474fbf52642b0fba192fdfc601592d50a77d11b2a859432
@@ -95,6 +105,16 @@ entries:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-courses-0.1.0/class-courses-0.1.0.tgz
     version: 0.1.0
   class-email:
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2023-10-06T06:41:09.63175534Z"
+    description: A Helm chart for Kubernetes
+    digest: 858275155795df77a1ffdb1010551791cc1a5dff2b21ad9ef450bb08c824159a
+    name: class-email
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-email-1.0.1/class-email-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 2.0.0
     created: "2023-10-06T04:22:48.747303936Z"
@@ -215,4 +235,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T04:22:50.087554825Z"
+generated: "2023-10-06T06:41:09.631907749Z"
