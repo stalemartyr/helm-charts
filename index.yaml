@@ -286,6 +286,16 @@ entries:
   class-socket:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-06T09:15:06.912016459Z"
+    description: A Helm chart for Kubernetes
+    digest: 754d7ea35a133a68a2330e6ea763d6ea67ae79834c15afe95ae1ec159dce5c36
+    name: class-socket
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-socket-1.0.1/class-socket-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T04:22:49.962107929Z"
     description: A Helm chart for Kubernetes
     digest: ce8779e5ff12e3f3d94251d7c8dd8b801985ac00533711ec0ec2c0b666bdd1b1
@@ -305,4 +315,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T09:11:44.894964459Z"
+generated: "2023-10-06T09:15:06.912048359Z"
