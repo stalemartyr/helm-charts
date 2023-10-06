@@ -180,6 +180,16 @@ entries:
   class-files:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-06T07:52:30.557449838Z"
+    description: A Helm chart for Kubernetes
+    digest: be455977b93e392e370f7e358653fbef78ce300e94217e575f497babd6e81588
+    name: class-files
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-files-1.0.1/class-files-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T04:22:49.171561136Z"
     description: A Helm chart for Kubernetes
     digest: f590e481f0ddd8b98bf3ebfb555653f662e02a18aed1ddf3b774f9e3ceea5671
@@ -189,6 +199,16 @@ entries:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-files-1.0.0/class-files-1.0.0.tgz
     version: 1.0.0
   class-gw-ingress:
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2023-10-06T07:52:30.766276877Z"
+    description: A Helm chart for Kubernetes
+    digest: 1faf9de28ac30bce614dcf747691e0b1297cd57355065859ba546a95607c3b3f
+    name: class-gw-ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-gw-ingress-1.0.1/class-gw-ingress-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 2.0.0
     created: "2023-10-06T04:22:49.307689647Z"
@@ -265,4 +285,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T07:12:57.084137405Z"
+generated: "2023-10-06T07:52:30.766317577Z"
