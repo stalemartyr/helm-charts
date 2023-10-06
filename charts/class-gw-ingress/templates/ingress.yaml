@@ -11,10 +11,14 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, DELETE, PATCH
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/websocket-services: "socketservice"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.org/client-max-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-ingress
   rules:
-  - host: 
+  - host: upclass.backend.laniakea.local
     http:
       paths:
       - path: /socket.io
