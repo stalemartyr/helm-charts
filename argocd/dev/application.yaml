@@ -1,0 +1,320 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-auth
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-auth
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-auth
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+    # automated:
+    #   selfHeal: false #set to true in prod
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-courses
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-courses
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.1
+    helm:
+      releaseName: class-courses
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-campus
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-campus
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-campus
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-content
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-content
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-content
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-email
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-email
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.2
+    helm:
+      releaseName: class-email
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-enroll
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-enroll
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.2
+    helm:
+      releaseName: class-enroll
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-exam
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-exam
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-exam
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-files
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-files
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.1
+    helm:
+      releaseName: class-files
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-gw-ingress
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-gw-ingress
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.1
+    helm:
+      releaseName: class-gw-ingress
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-messages
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-messages
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-messages
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-notifications
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-notifications
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-notifications
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-redis
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-redis
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.1
+    helm:
+      releaseName: class-redis
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-references
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-references
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.1
+    helm:
+      releaseName: class-references
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-socket
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-socket
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.1
+    helm:
+      releaseName: class-socket
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-user
+  namespace: argocd
+spec: 
+  project: upclass
+  source:
+    chart: class-user
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-user
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-dev
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
