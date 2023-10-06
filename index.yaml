@@ -180,6 +180,16 @@ entries:
   class-files:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-06T18:33:36.610054953Z"
+    description: A Helm chart for Kubernetes
+    digest: 1b39eb6cd44deb980ec9a535a623b9ec8a2a350432211808b744c673e3c040f0
+    name: class-files
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-files-1.0.2/class-files-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T07:52:30.557449838Z"
     description: A Helm chart for Kubernetes
     digest: be455977b93e392e370f7e358653fbef78ce300e94217e575f497babd6e81588
@@ -315,4 +325,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T09:15:06.912048359Z"
+generated: "2023-10-06T18:33:36.610100653Z"
