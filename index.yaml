@@ -265,6 +265,16 @@ entries:
   class-references:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-06T09:11:44.894934059Z"
+    description: A Helm chart for Kubernetes
+    digest: 9371838a1613f59c921e1f86708bbce169de45d74509a60ec20aa1a5186a8d34
+    name: class-references
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-references-1.0.1/class-references-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T04:22:49.845875804Z"
     description: A Helm chart for Kubernetes
     digest: de8ed894e08fcf310c6bfa44119e56bd7826c1eeb311e7188a2d60652d3d3275
@@ -295,4 +305,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T09:02:58.051708351Z"
+generated: "2023-10-06T09:11:44.894964459Z"
