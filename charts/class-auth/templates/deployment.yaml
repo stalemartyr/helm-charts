@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: classns
+  namespace: {{ .Values.namespace }}
   name: authservice
   labels:
     app: authservice
@@ -10,7 +10,7 @@ metadata:
 spec:
   template:
     metadata:
-      namespace: classns
+      namespace: {{ .Values.namespace }}
       name: authservice
       labels:
         app: authservice
@@ -92,17 +92,3 @@ spec:
   selector:
     matchLabels:
       app: authservice
-
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: authservice
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: authservice
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50

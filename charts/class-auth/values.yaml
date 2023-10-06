@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+namespace: upclass-dev
+
 image:
   registry: docker.laniakea.local:8080
   repository: backend/authservice
