@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: enrollservice
-  namespace: classns
+  namespace: {{ .Values.namespace }}
   labels:
     app: enrollservice
 
@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       name: enrollservice
-      namespace: classns
+      namespace: {{ .Values.namespace }}
       labels:
         app: enrollservice
 
