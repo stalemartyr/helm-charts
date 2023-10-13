@@ -73,6 +73,17 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-content-0.1.0/class-content-0.1.0.tgz
     version: 0.1.0
+  class-core-secrets:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-10-13T18:05:10.13368264Z"
+    description: Secret dependency
+    digest: 164b3209e0abce446772146aaf977bfd42fe8be1ab3564add5a5ed8ed90680c6
+    name: class-core-secrets
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-core-secrets-1.0.0/class-core-secrets-1.0.0.tgz
+    version: 1.0.0
   class-courses:
   - apiVersion: v2
     appVersion: 2.0.0
@@ -105,6 +116,16 @@ entries:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-courses-0.1.0/class-courses-0.1.0.tgz
     version: 0.1.0
   class-db:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2023-10-13T18:05:10.272669743Z"
+    description: A Helm chart for Kubernetes
+    digest: 4c962fd310815926199e178520618a75bfd63c8da4e98a115b8df0ec22b9409a
+    name: class-db
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-db-1.0.1/class-db-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 0.0.1
     created: "2023-10-13T17:24:22.03332713Z"
@@ -336,4 +357,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-13T17:24:22.033451234Z"
+generated: "2023-10-13T18:05:10.272857456Z"
