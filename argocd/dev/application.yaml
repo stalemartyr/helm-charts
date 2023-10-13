@@ -1,10 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata: 
+  name: upclass-development
+  namespace: argocd
+spec:
+  description: Upclass development project
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
   name: class-auth
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-auth
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -27,7 +46,7 @@ metadata:
   name: class-courses
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-courses
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -48,7 +67,7 @@ metadata:
   name: class-campus
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-campus
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -70,7 +89,7 @@ metadata:
   name: class-content
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-content
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -92,7 +111,7 @@ metadata:
   name: class-email
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-email
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -114,7 +133,7 @@ metadata:
   name: class-enroll
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-enroll
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -136,7 +155,7 @@ metadata:
   name: class-exam
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-exam
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -157,11 +176,11 @@ metadata:
   name: class-files
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-files
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     helm:
       releaseName: class-files
   destination:
@@ -178,7 +197,7 @@ metadata:
   name: class-gw-ingress
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-gw-ingress
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -199,7 +218,7 @@ metadata:
   name: class-messages
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-messages
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -220,7 +239,7 @@ metadata:
   name: class-notifications
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-notifications
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -241,7 +260,7 @@ metadata:
   name: class-redis
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-redis
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -262,7 +281,7 @@ metadata:
   name: class-references
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-references
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -283,7 +302,7 @@ metadata:
   name: class-socket
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-socket
     repoURL: https://stalemartyr.github.io/helm-charts
@@ -304,7 +323,7 @@ metadata:
   name: class-user
   namespace: argocd
 spec: 
-  project: upclass
+  project: upclass-development
   source:
     chart: class-user
     repoURL: https://stalemartyr.github.io/helm-charts

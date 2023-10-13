@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata: 
+  name: upclass-core
+  namespace: argocd
+spec:
+  description: Upclass core environment/shared service
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-auth
+  namespace: argocd
+spec: 
+  project: upclass-core
+  source:
+    chart: class-core-secrets
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-core-secrets
+      valuesObject:
+        namespace: classns-core
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-core
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+    # automated:
+    #   selfHeal: false #set to true in prod
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: class-auth
+  namespace: argocd
+spec: 
+  project: upclass-core
+  source:
+    chart: class-db
+    repoURL: https://stalemartyr.github.io/helm-charts
+    targetRevision: 1.0.0
+    helm:
+      releaseName: class-db
+  destination:
+    server: https://192.168.254.201:6443
+    namespace: classns-core
+
+  syncPolicy: 
+    syncOptions:
+    - CreateNamespace=true
+    # automated:
+    #   selfHeal: false #set to true in prod
