@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: classdb-volume
-  namespace: classns-core
+  namespace: {{ .Values.namespace }}
   labels:
     app: classdb
 
@@ -21,7 +21,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: classdb-volumeclaim
-  namespace: classns-core
+  namespace: {{ .Values.namespace }}
   labels:
     app: classdb
 
@@ -38,7 +38,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name:   dbservice
-  namespace: classns-core
+  namespace: {{ .Values.namespace }}
   labels:
     app:   dbservice
 
@@ -46,7 +46,7 @@ spec:
   template:
     metadata:
       name:   dbservice
-      namespace: classns-core
+      namespace: {{ .Values.namespace }}
       labels:
         app:   dbservice
     spec:
