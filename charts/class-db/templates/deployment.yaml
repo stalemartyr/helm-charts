@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: classdb-volume
+  namespace: classns-core
+  labels:
+    app: classdb
+
+spec:
+  storageClassName: data
+  capacity:
+    storage: "{{ .Values.volume.server.capacity }}"
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    server: "{{ .Values.volume.server.server }}"
+    path: "{{ .Values.volume.server.path }}"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: classdb-volumeclaim
+  namespace: classns-core
+  labels:
+    app: classdb
+
+spec:
+  storageClassName: data
+  resources:
+    requests:
+      storage: "{{ .Values.volume.server.capacity }}"
+  accessModes:
+  - ReadWriteMany
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:   dbservice
+  namespace: classns-core
+  labels:
+    app:   dbservice
+
+spec:
+  template:
+    metadata:
+      name:   dbservice
+      namespace: classns-core
+      labels:
+        app:   dbservice
+    spec:
+      containers:
+      - name:   dbservice
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        #image: mariadb:10.6.0-focal
+        # command: ["/bin/sh", "-c"]
+        # args: ["chown -R mysql:mysql /var/lib/mysql && mysqld --general-log=1 --general-log-file=/var/log/mysql/general-log.log"]
+        # - mysqld
+        # - --general-log=1 
+        # - --general-log-file=/var/log/mysql/general-log.log
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: P@ssw0rd2019
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "100m"
+          limits:
+            memory: "2048Mi"
+            cpu: "500m"
+        ports:
+        - name: http
+          containerPort: 3306
+        volumeMounts:
+        - name: datavolume
+          mountPath: /var/lib/mysql
+        - name: logvolume
+          mountPath: /var/log/mysql
+        securityContext:
+          runAsUser: 999
+      - name: filebeat
+        image: {{ .Values.image.registry }}/logging/elastic/filebeat:7.9.3
+        command:
+        - sh
+        - -c 
+        - "filebeat -c /config/filebeat.yml -e"
+        env:
+        - name: setup.kibana.host
+          value: kibana:5601
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config/
+        - name: logvolume
+          mountPath: /logs/
+      imagePullSecrets:
+      - name: regsecret
+      volumes:
+      - name: datavolume
+        persistentVolumeClaim:
+          claimName: classdb-volumeclaim
+      - name: logvolume
+        emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: classdb-filebeat
+      nodeSelector:
+        application: upclass
+  replicas: 1
+  selector:
+    matchLabels:
+      app:   dbservice

@@ -1,0 +1,17 @@
+# Default values for class-db.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  registry: docker.laniakea.local:8080
+  repository: backend/mariadb
+  pullPolicy: Always
+  tag: "10.4.11"
+
+volume:
+  server:
+    server: "nfs.laniakea.local"
+    path: "/export/CLUSTER/database"
+    capacity: "25Gi"
