@@ -28,7 +28,7 @@ metadata:
 spec:
   ports:
   - name: http
-    nodePort: 30601
+    nodePort: {{ .Values.db_node_port }}
     port: 3306
     protocol: TCP
     targetPort: 3306
