@@ -28,7 +28,7 @@ metadata:
 spec:
   ports:
   - name: http
-    nodePort: 30600
+    nodePort: 30601
     port: 3306
     protocol: TCP
     targetPort: 3306
