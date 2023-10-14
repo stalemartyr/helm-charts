@@ -13,7 +13,7 @@ spec:
   - ReadWriteMany
   nfs:
     server: nfs.laniakea.local
-    path: /export/CLUSTER/uploads
+    path: /export/CLUSTER/uploads{{ .Values.upload_suffix }}
 
 ---
 apiVersion: v1

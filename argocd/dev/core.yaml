@@ -16,6 +16,18 @@ spec:
   namespaceResourceWhitelist:
   - group: '*'
     kind: '*'
+--- 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metallb
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: metallb
+  url: https://metallb.github.io/metallb
+  type: helm
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
