@@ -253,6 +253,16 @@ entries:
   class-gw-ingress:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-14T10:15:09.887056868Z"
+    description: A Helm chart for Kubernetes
+    digest: ee6b98b0c109247b63c4c52eba20d241cb272bbdc89c8365e9e3fa353fd6182b
+    name: class-gw-ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-gw-ingress-1.0.2/class-gw-ingress-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T07:52:30.766276877Z"
     description: A Helm chart for Kubernetes
     digest: 1faf9de28ac30bce614dcf747691e0b1297cd57355065859ba546a95607c3b3f
@@ -367,4 +377,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-14T02:50:31.1827603Z"
+generated: "2023-10-14T10:15:09.887182869Z"
