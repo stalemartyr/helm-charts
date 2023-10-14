@@ -79,26 +79,26 @@ spec:
           mountPath: /var/log/mysql
         securityContext:
           runAsUser: 999
-      - name: filebeat
-        image: {{ .Values.image.registry }}/logging/elastic/filebeat:7.9.3
-        command:
-        - sh
-        - -c 
-        - "filebeat -c /config/filebeat.yml -e"
-        env:
-        - name: setup.kibana.host
-          value: kibana:5601
-        - name: NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        securityContext:
-          runAsUser: 0
-        volumeMounts:
-        - name: config-volume
-          mountPath: /config/
-        - name: logvolume
-          mountPath: /logs/
+      # - name: filebeat
+      #   image: {{ .Values.image.registry }}/logging/elastic/filebeat:7.9.3
+      #   command:
+      #   - sh
+      #   - -c 
+      #   - "filebeat -c /config/filebeat.yml -e"
+      #   env:
+      #   - name: setup.kibana.host
+      #     value: kibana:5601
+      #   - name: NODE_NAME
+      #     valueFrom:
+      #       fieldRef:
+      #         fieldPath: spec.nodeName
+      #   securityContext:
+      #     runAsUser: 0
+      #   volumeMounts:
+      #   - name: config-volume
+      #     mountPath: /config/
+      #   - name: logvolume
+      #     mountPath: /logs/
       imagePullSecrets:
       - name: regsecret
       volumes:

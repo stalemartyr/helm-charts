@@ -32,7 +32,6 @@ spec:
       releaseName: class-auth
       valuesObject:
         namespace: classns-prod
-        hash: eyJhdXRocyI6eyJkb2NrZXIubGFuaWFrZWEubG9jYWw6ODA4MCI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJTdDRsM000cnR5cjE5OTIiLCJhdXRoIjoiWVdSdGFXNDZVM1EwYkROTk5ISjBlWEl4T1RreSJ9fX0=
   destination:
     server: https://192.168.254.201:6443
     namespace: classns-prod
