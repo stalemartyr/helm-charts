@@ -15,10 +15,54 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.0.2
+version: 1.0.3
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: 2.0.0
+
+dependencies:
+  - name: class-auth
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-courses
+    version: 1.0.1
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-campus
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-content
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-email
+    version: 1.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-enroll
+    version: 1.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-exam
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-files
+    version: 1.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-messages
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-notifications
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-redis
+    version: 1.0.1
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-references
+    version: 1.0.1
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-socket
+    version: 1.0.1
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: class-user
+    version: 1.0.0
+    repository: https://stalemartyr.github.io/helm-charts

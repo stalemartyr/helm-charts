@@ -23,32 +23,6 @@ metadata:
   name: class-auth
   namespace: argocd
 spec: 
-  project: upclass-dev
-  source:
-    chart: class-dev-secrets
-    repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.0
-    helm:
-      releaseName: class-core-secrets
-      valuesObject:
-        namespace: classns-dev
-        hash: eyJhdXRocyI6eyJkb2NrZXIubGFuaWFrZWEubG9jYWw6ODA4MCI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJTdDRsM000cnR5cjE5OTIiLCJhdXRoIjoiWVdSdGFXNDZVM1EwYkROTk5ISjBlWEl4T1RreSJ9fX0=
-  destination:
-    server: https://192.168.254.201:6443
-    namespace: classns-dev
-
-  syncPolicy: 
-    syncOptions:
-    - CreateNamespace=true
-    # automated:
-    #   selfHeal: false #set to true in prod
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata: 
-  name: class-auth
-  namespace: argocd
-spec: 
   project: upclass-development
   source:
     chart: class-auth
@@ -227,7 +201,7 @@ spec:
   source:
     chart: class-gw-ingress
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     helm:
       releaseName: class-gw-ingress
   destination:
