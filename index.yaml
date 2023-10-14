@@ -118,6 +118,16 @@ entries:
   class-db:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2023-10-14T13:48:02.383847193Z"
+    description: A Helm chart for Kubernetes
+    digest: f5af368891ea57cd48794831777d3d83aab84287594e36bd13003196d5716a86
+    name: class-db
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-db-1.0.5/class-db-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2023-10-14T13:46:36.18739801Z"
     description: A Helm chart for Kubernetes
     digest: 75041a8f49b2460d10beb0f06f311d3a1e1d26ae48cc0e0db94766f54b6eb9e2
@@ -460,4 +470,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-14T13:46:36.18750231Z"
+generated: "2023-10-14T13:48:02.383978193Z"
