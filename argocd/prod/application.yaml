@@ -40,7 +40,7 @@ spec:
   source:
     chart: class-gw-ingress
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.6
+    targetRevision: 1.0.7
     helm:
       releaseName: class-gw-ingress
       valuesObject:
@@ -68,6 +68,7 @@ spec:
           pvc_name: file-volumeclaim-prd
           server: 
             nfs: 
+              server: nfs.laniakea.local
               path: /export/CLUSTER/uploads-prd
         class-messages:
           namespace: "classns-prd"

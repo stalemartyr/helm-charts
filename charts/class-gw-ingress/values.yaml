@@ -23,6 +23,7 @@ class-files:
   pvc_name: file-volumeclaim
   server: 
     nfs: 
+      server: nfs.laniakea.local
       path: /export/CLUSTER/uploads
 class-messages:
   namespace: "classns-dev"
