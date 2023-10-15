@@ -19,6 +19,11 @@ class-exam:
   namespace: "classns-dev"
 class-files:
   namespace: "classns-dev"
+  pv_name: file-volume
+  pvc_name: file-volumeclaim
+  server: 
+    nfs: 
+      path: /export/CLUSTER/uploads
 class-messages:
   namespace: "classns-dev"
 class-notifications:
