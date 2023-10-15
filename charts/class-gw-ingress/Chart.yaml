@@ -46,7 +46,7 @@ dependencies:
     version: 1.0.0
     repository: https://stalemartyr.github.io/helm-charts
   - name: class-files
-    version: 1.0.5
+    version: 1.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: class-messages
     version: 1.0.0
