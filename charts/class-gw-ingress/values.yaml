@@ -31,6 +31,7 @@ class-notifications:
   namespace: "classns-dev"
 class-redis:
   namespace: "classns-dev"
+  redis_node_port: 30610
 class-references:
   namespace: "classns-dev"
 class-socket:
