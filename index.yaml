@@ -704,6 +704,16 @@ entries:
   class-redis:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-15T04:29:33.259726742Z"
+    description: A Helm chart for Kubernetes
+    digest: d7cc5ffaa8d999b3cf8e9c134375810020024bf21de0f642f80a6581e562b962
+    name: class-redis
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-redis-1.0.2/class-redis-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-06T09:02:58.051682351Z"
     description: A Helm chart for Kubernetes
     digest: e0a239ee626d90a50c1a7747a23a766c5f8a11570f215b5a89194c3fd1a47c40
@@ -775,4 +785,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-15T04:09:29.595518775Z"
+generated: "2023-10-15T04:29:33.259793742Z"
