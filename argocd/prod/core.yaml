@@ -27,13 +27,15 @@ spec:
   source:
     chart: class-db
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.3
+    targetRevision: 1.0.5
     helm:
       releaseName: class-db-prd
       valuesObject:
         namespace: classns-core-prd
+        db_node_port: 30601
         volume:
-          path: "/export/CLUSTER/database-prd"
+          server:
+            path: "/export/CLUSTER/database-prd"
   destination:
     server: https://192.168.254.201:6443
     namespace: classns-core-prd
