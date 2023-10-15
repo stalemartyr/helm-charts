@@ -40,9 +40,13 @@ spec:
   source:
     chart: class-gw-ingress
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.3
+    targetRevision: 1.0.4
     helm:
       releaseName: class-gw-ingress
+      valuesObject:
+        namespace: classns-prd
+        core_namespace: classns-core-prd
+        logs_namespace: classns-logging-prd
   destination:
     server: https://192.168.254.201:6443
     namespace: classns-prd
