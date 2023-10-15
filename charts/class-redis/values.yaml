@@ -13,6 +13,9 @@ image:
   tag: latest
 
 
+redis_node_port: 30610
+
+
 resources:
   limits:
     cpu: 100m
