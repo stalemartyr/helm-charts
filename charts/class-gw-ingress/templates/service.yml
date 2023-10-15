@@ -23,7 +23,7 @@ metadata:
   name: kafkasvc
 spec:
   type: ExternalName
-  externalName: kafkasvc.classns-logging.svc.cluster.local
+  externalName: kafkasvc.{{ .Values.logs_namespace }}.svc.cluster.local
   ports:
   - port: 9092
     protocol: TCP
@@ -35,25 +35,11 @@ kind: Service
 metadata:
   namespace: {{ .Values.namespace }}
   labels:
-    app: vaultservice
-  name: vaultservice
-spec:
-  type: ExternalName
-  externalName: vaultservice.classns-core.svc.cluster.local
-  ports:
-  - port: 8888
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: {{ .Values.namespace }}
-  labels:
     app: classdb
   name: classdb
 spec:
   type: ExternalName
-  externalName: dbservice.classns-core.svc.cluster.local
+  externalName: dbservice.{{ .Values.core_namespace }}.svc.cluster.local
   ports:
   - port: 3306
 
@@ -67,7 +53,7 @@ metadata:
   name: logstash
 spec:
   type: ExternalName
-  externalName: logstash.classns-logging.svc.cluster.local
+  externalName: logstash.{{ .Values.logs_namespace }}.svc.cluster.local
   ports:
   - port: 5044
     protocol: TCP

@@ -1,2 +1,4 @@
 
 namespace: classns-dev
+core_namespace: classns-core
+logs_namespace: classns-logging

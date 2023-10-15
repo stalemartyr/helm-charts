@@ -37,23 +37,23 @@ spec:
   type: NodePort
 
 ---
----
-# Source: class-gw-ingress/templates/ingress.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: database-service-ingress
-  namespace: {{ .Values.namespace }}
-  labels:
-    app.kubernetes.io/name: nginx-ingress
-    app.kubernetes.io/part-of: nginx-ingress
-spec:
-  type: LoadBalancer
-  ports:
-    - name: mariadb
-      port: 3306
-      targetPort: 3306
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/part-of: ingress-nginx
+# ---
+# # Source: class-gw-ingress/templates/ingress.yaml
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: database-service-ingress
+#   namespace: {{ .Values.namespace }}
+#   labels:
+#     app.kubernetes.io/name: nginx-ingress
+#     app.kubernetes.io/part-of: nginx-ingress
+# spec:
+#   type: LoadBalancer
+#   ports:
+#     - name: mariadb
+#       port: 3306
+#       targetPort: 3306
+#       protocol: TCP
+#   selector:
+#     app.kubernetes.io/name: ingress-nginx
+#     app.kubernetes.io/part-of: ingress-nginx
