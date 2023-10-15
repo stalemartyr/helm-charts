@@ -323,6 +323,59 @@ entries:
   class-gw-ingress:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2023-10-15T03:21:12.241049601Z"
+    dependencies:
+    - name: class-auth
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-courses
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-campus
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-content
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-email
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-enroll
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-exam
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-files
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-messages
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-notifications
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-redis
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-references
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-socket
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-user
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    description: A Helm chart for Kubernetes
+    digest: fbb7b35a9d628929456da2da9e4357ef2c2b7d6a22edc2959dd42e9800d2e4e1
+    name: class-gw-ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-gw-ingress-1.0.5/class-gw-ingress-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-15T02:57:26.116240168Z"
     dependencies:
     - name: class-auth
@@ -553,4 +606,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-user-1.0.0/class-user-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-15T02:57:26.116488069Z"
+generated: "2023-10-15T03:21:12.241120103Z"
