@@ -104,7 +104,7 @@ spec:
       volumes:
       - name: datavolume
         persistentVolumeClaim:
-          claimName: classdb-volumeclaim
+          claimName: {{ .Values.pvc_name }}
       - name: logvolume
         emptyDir: {}
       - name: config-volume
