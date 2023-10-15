@@ -38,34 +38,6 @@ spec:
         volume:
           server:
             path: "/export/CLUSTER/database-prd"
-        class-auth:
-          namespace: "classns-prd"
-        class-courses:
-          namespace: "classns-prd"
-        class-campus:
-          namespace: "classns-prd"
-        class-content:
-          namespace: "classns-prd"
-        class-email:
-          namespace: "classns-prd"
-        class-enroll:
-          namespace: "classns-prd"
-        class-exam:
-          namespace: "classns-prd"
-        class-files:
-          namespace: "classns-prd"
-        class-messages:
-          namespace: "classns-prd"
-        class-notifications:
-          namespace: "classns-prd"
-        class-redis:
-          namespace: "classns-prd"
-        class-references:
-          namespace: "classns-prd"
-        class-socket:
-          namespace: "classns-prd"
-        class-user:
-          namespace: "classns-prd"
   destination:
     server: https://192.168.254.201:6443
     namespace: classns-core-prd
