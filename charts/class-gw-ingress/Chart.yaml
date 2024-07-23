@@ -15,7 +15,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.0.3
+version: 1.0.9
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -46,7 +46,7 @@ dependencies:
     version: 1.0.0
     repository: https://stalemartyr.github.io/helm-charts
   - name: class-files
-    version: 1.0.2
+    version: 1.0.5
     repository: https://stalemartyr.github.io/helm-charts
   - name: class-messages
     version: 1.0.0
@@ -55,7 +55,7 @@ dependencies:
     version: 1.0.0
     repository: https://stalemartyr.github.io/helm-charts
   - name: class-redis
-    version: 1.0.1
+    version: 1.0.2
     repository: https://stalemartyr.github.io/helm-charts
   - name: class-references
     version: 1.0.1

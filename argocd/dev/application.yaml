@@ -43,6 +43,39 @@ spec:
     targetRevision: 1.0.3
     helm:
       releaseName: class-gw-ingress
+      valuesObject:
+        namespace: "classns-dev"
+        core_namespace: "classns-core"
+        logs_namespace: "classns-logging"
+
+        class-auth:
+          namespace: "classns-dev"
+        class-courses:
+          namespace: "classns-dev"
+        class-campus:
+          namespace: "classns-dev"
+        class-content:
+          namespace: "classns-dev"
+        class-email:
+          namespace: "classns-dev"
+        class-enroll:
+          namespace: "classns-dev"
+        class-exam:
+          namespace: "classns-dev"
+        class-files:
+          namespace: "classns-dev"
+        class-messages:
+          namespace: "classns-dev"
+        class-notifications:
+          namespace: "classns-dev"
+        class-redis:
+          namespace: "classns-dev"
+        class-references:
+          namespace: "classns-dev"
+        class-socket:
+          namespace: "classns-dev"
+        class-user:
+          namespace: "classns-dev"
   destination:
     server: https://192.168.254.201:6443
     namespace: classns-dev

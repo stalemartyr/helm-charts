@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name:   dbservice
-        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         #image: mariadb:10.6.0-focal
         # command: ["/bin/sh", "-c"]
         # args: ["chown -R mysql:mysql /var/lib/mysql && mysqld --general-log=1 --general-log-file=/var/log/mysql/general-log.log"]
@@ -104,7 +104,7 @@ spec:
       volumes:
       - name: datavolume
         persistentVolumeClaim:
-          claimName: classdb-volumeclaim
+          claimName: {{ .Values.pvc_name }}
       - name: logvolume
         emptyDir: {}
       - name: config-volume

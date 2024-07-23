@@ -27,12 +27,14 @@ spec:
   source:
     chart: class-db
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.5
+    targetRevision: 1.0.7
     helm:
       releaseName: class-db-prd
       valuesObject:
         namespace: classns-core-prd
-        db_node_port: 30601
+        pv_name: "classdb-volume-prd"
+        pvc_name: "classdb-volumeclaim-prd"
+        db_node_port: 30604
         volume:
           server:
             path: "/export/CLUSTER/database-prd"
