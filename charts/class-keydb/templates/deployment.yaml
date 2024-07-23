@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Values.namespace }}
-  name: redisservice
+  name: keydbservice
   labels:
-    app: redisservice
+    app: keydbservice
 
 spec:
   template:
     metadata:
       namespace: {{ .Values.namespace }}
-      name: redisservice
+      name: keydbservice
       labels:
-        app: redisservice
+        app: keydbservice
     spec:
       containers:
-      - name: redisservice
-        image: redis:6.0.5
+      - name: keydbservice
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
         env:
         - name: APP_NAME
-          value: redisservice
+          value: keydbservice
         resources:
           requests:
             memory: "{{ .Values.resources.requests.memory }}"
@@ -37,4 +37,4 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redisservice
+      app: keydbservice

@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: redisservice
-  name: redisservice
+    app: keydbservice
+  name: keydbservice
   namespace: {{ .Values.namespace }}
 spec:
   ports:
@@ -13,7 +13,7 @@ spec:
     protocol: TCP
     targetPort: 6379
   selector:
-    app: redisservice
+    app: keydbservice
   type: ClusterIP
 
 ---
@@ -21,16 +21,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: redisservice
-  name: redisservicenp
+    app: keydbservice
+  name: keydbservicenp
   namespace: {{ .Values.namespace }}
 spec:
   ports:
   - name: http
-    nodePort: 30610
+    nodePort: 30620
     port: 6379
     protocol: TCP
     targetPort: 6379
   selector:
-    app: redisservice
+    app: keydbservice
   type: NodePort
