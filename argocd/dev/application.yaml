@@ -70,6 +70,8 @@ spec:
           namespace: "classns-dev"
         class-redis:
           namespace: "classns-dev"
+        class-keydb:
+          namespace: "classns-dev"
         class-references:
           namespace: "classns-dev"
         class-socket:
