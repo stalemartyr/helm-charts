@@ -38,3 +38,5 @@ class-socket:
   namespace: "classns-dev"
 class-user:
   namespace: "classns-dev"
+class-keydb:
+  namespace: "classns-dev"
