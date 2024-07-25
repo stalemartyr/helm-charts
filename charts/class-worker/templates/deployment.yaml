@@ -57,9 +57,9 @@ spec:
         - name: GEOLOCATION_PATTERN
           value: "https://nominatim.openstreetmap.org/reverse?format=json&lat={LATITUDE}&lon={LONGITUDE}&zoom=18&addressdetails=1"
         - name: MAILERR_API_SERVER
-          value: http://192.168.254.214
+          value: "http://192.168.254.214"
         - name: MAILERR_API_PORT
-          value: 30081 
+          value: "30081" 
         resources:
           requests:
             memory: "{{ .Values.resources.requests.memory }}"
