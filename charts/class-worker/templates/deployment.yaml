@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: workerservice
+  labels:
+    app: workerservice
+    project: upclass
+
+spec:
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      name: workerservice
+      labels:
+        app: workerservice
+        project: upclass
+    spec:
+      containers:
+      - name: workerservice
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command:
+        - celery
+        args:
+        - -A
+        - worker.celery
+        - worker
+        - --loglevel=INFO
+        - -P
+        - eventlet
+        env:
+        - name: APP_NAME
+          value: workerservice
+        - name: KAFKA_URL
+          value:  "kafkasvc.classns-logging.svc.cluster.local:9092"
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+        - name: ENV
+          value: "prod"
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "service.name=workerservice"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://192.168.254.6:4318"
+        - name: GEOLOCATION_PATTERN
+          value: "https://nominatim.openstreetmap.org/reverse?format=json&lat={LATITUDE}&lon={LONGITUDE}&zoom=18&addressdetails=1"
+        - name: MAILERR_API_SERVER
+          value: http://192.168.254.214
+        - name: MAILERR_API_PORT
+          value: 30081 
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        volumeMounts:
+        - name: uploadvolume
+          mountPath: /uploads
+      initContainers:
+      - name: init-service
+        image: docker.laniakea.local:8080/backend/tools:latest
+        # command: 
+        # - python
+        # - initcontainer.py
+        env:
+        - name: APP_NAME
+          value: workerservice
+        - name: VAULT_ADDR
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ADDR
+        - name: VAULT_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_ID
+        - name: VAULT_ROLE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: appsecret
+              key: VAULT_ROLE_SECRET
+      imagePullSecrets:
+      - name: regsecret
+      nodeSelector:
+        application: upclass
+      volumes:
+      - name: uploadvolume
+        persistentVolumeClaim: 
+          claimName: file-volumeclaim
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workerservice

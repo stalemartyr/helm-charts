@@ -40,7 +40,7 @@ spec:
   source:
     chart: class-gw-ingress
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.13
+    targetRevision: 1.0.15
     helm:
       releaseName: class-gw-ingress
       valuesObject:
@@ -77,6 +77,8 @@ spec:
         class-socket:
           namespace: "classns-dev"
         class-user:
+          namespace: "classns-dev"
+        class-worker:
           namespace: "classns-dev"
   destination:
     server: https://192.168.254.201:6443
