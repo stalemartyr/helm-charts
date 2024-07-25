@@ -3,6 +3,16 @@ entries:
   class-auth:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2024-07-25T04:30:46.898998837Z"
+    description: A Helm chart for Kubernetes
+    digest: 9011868f4a579ef49fb46e95b3930915cd485cecb86a410071edecbcb02596c2
+    name: class-auth
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-auth-1.0.4/class-auth-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2024-07-25T03:53:53.697010148Z"
     description: A Helm chart for Kubernetes
     digest: 3ea22c708dd69ba4dd23229bfb7d3fb3ee6712f1230799ca5f0b843e882b1990
@@ -292,6 +302,16 @@ entries:
   class-files:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2024-07-25T04:30:47.069727269Z"
+    description: A Helm chart for Files
+    digest: 150dad5fe6be846db6d54d3d57d56f5ca7864f2d6fd24744ef0474527eaf7d44
+    name: class-files
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-files-1.0.7/class-files-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2023-10-15T04:02:35.193387516Z"
     description: A Helm chart for Kubernetes
     digest: 06721ae16245794153e2fefeebdff41e81ba511bd6821cf2d4d9b67f4d36d03f
@@ -341,6 +361,65 @@ entries:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-files-1.0.0/class-files-1.0.0.tgz
     version: 1.0.0
   class-gw-ingress:
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2024-07-25T04:30:47.278781395Z"
+    dependencies:
+    - name: class-auth
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.3
+    - name: class-courses
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-campus
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-content
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-email
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-enroll
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-exam
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-files
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.5
+    - name: class-messages
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-notifications
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-redis
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-references
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-socket
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-user
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-keydb
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.3
+    - name: class-worker
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    description: A Helm chart for Kubernetes
+    digest: 23307ecfe55e285aeef4640dfd211f6b458f8ed55fdf20cbcb94317b152fbc91
+    name: class-gw-ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-gw-ingress-1.0.18/class-gw-ingress-1.0.18.tgz
+    version: 1.0.18
   - apiVersion: v2
     appVersion: 2.0.0
     created: "2024-07-25T04:20:45.047805892Z"
@@ -1267,6 +1346,16 @@ entries:
   class-worker:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2024-07-25T04:30:47.456408827Z"
+    description: A Helm chart for Worker service
+    digest: 2429be5be004dc7d699dc6af32d65353c1649c3442ee0d8842eaeb40ac155537
+    name: class-worker
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-worker-1.0.2/class-worker-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2024-07-25T04:16:04.604832534Z"
     description: A Helm chart for Worker service
     digest: ee1822520382647eb55bec1cdd8d7c10a2ea022f0dd0b8b65123c6e5cfde72e9
@@ -1285,4 +1374,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-worker-1.0.0/class-worker-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-25T04:20:45.047942407Z"
+generated: "2024-07-25T04:30:47.456587922Z"
