@@ -1208,6 +1208,16 @@ entries:
   class-worker:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2024-07-25T04:16:04.604832534Z"
+    description: A Helm chart for Worker service
+    digest: ee1822520382647eb55bec1cdd8d7c10a2ea022f0dd0b8b65123c6e5cfde72e9
+    name: class-worker
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-worker-1.0.1/class-worker-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2024-07-25T03:53:53.955634575Z"
     description: A Helm chart for Worker service
     digest: 5a2cbb37fe40227374a3805bd607f1091125a5473606dd895c83f71a80219937
@@ -1216,4 +1226,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-worker-1.0.0/class-worker-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-25T04:04:19.590373277Z"
+generated: "2024-07-25T04:16:04.604925057Z"
