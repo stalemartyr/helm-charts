@@ -40,5 +40,5 @@ class-user:
   namespace: "classns-dev"
 class-keydb:
   namespace: "classns-dev"
-    #class-worker:
-    #  namespace: "classns-dev"
+class-worker:
+  namespace: "classns-dev"
