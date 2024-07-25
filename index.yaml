@@ -343,6 +343,65 @@ entries:
   class-gw-ingress:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2024-07-25T04:20:45.047805892Z"
+    dependencies:
+    - name: class-auth
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.3
+    - name: class-courses
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-campus
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-content
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-email
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-enroll
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-exam
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-files
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.5
+    - name: class-messages
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-notifications
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-redis
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.2
+    - name: class-references
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-socket
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    - name: class-user
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.0
+    - name: class-keydb
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.3
+    - name: class-worker
+      repository: https://stalemartyr.github.io/helm-charts
+      version: 1.0.1
+    description: A Helm chart for Kubernetes
+    digest: b43cf4b08f5524bd3bb3d754029c7fb431037ee890803a56ed23cbbd32a96e0c
+    name: class-gw-ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/class-gw-ingress-1.0.17/class-gw-ingress-1.0.17.tgz
+    version: 1.0.17
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2024-07-25T04:04:19.590020465Z"
     dependencies:
     - name: class-auth
@@ -1226,4 +1285,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-worker-1.0.0/class-worker-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-25T04:16:04.604925057Z"
+generated: "2024-07-25T04:20:45.047942407Z"
