@@ -40,7 +40,7 @@ spec:
   source:
     chart: class-gw-ingress
     repoURL: https://stalemartyr.github.io/helm-charts
-    targetRevision: 1.0.20
+    targetRevision: 1.0.21
     helm:
       releaseName: class-gw-ingress
       valuesObject:
