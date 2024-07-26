@@ -12,6 +12,7 @@ image:
   pullPolicy: Always
   tag: latest
 
+geoserver: http://192.168.254.25:8080
 
 resources:
   limits:
