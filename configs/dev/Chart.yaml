@@ -1,6 +1,6 @@
 apiVersion: v2
 name: upclass
-version: 0.1.0
+version: 0.1.1
 appVersion: "1.16.0"
 
 dependencies:
@@ -8,7 +8,7 @@ dependencies:
     version: 0.0.2
     repository: https://stalemartyr.github.io/helm-charts
   - name: app
-    version: 0.0.2
+    version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: beat
     version: 0.0.2
@@ -20,7 +20,7 @@ dependencies:
     version: 0.0.2
     repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-app
-    version: 0.0.2
+    version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-worker
     version: 0.0.2

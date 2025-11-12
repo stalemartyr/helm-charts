@@ -12,21 +12,37 @@ image:
 imagePullSecrets:
   - name: regsecret
 
-# Environment variables
-env: []
-  # - name: NODE_ENV
-  #   value: "production"
-  # - name: DATABASE_URL
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: db-credentials
-  #       key: url
-  # Example with valueFrom:
-  # - name: SECRET_VAR
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: my-secret
-  #       key: secret-key
+service:
+  type: ClusterIP
+  port: 5000
+
+env:
+  - name: FLASK_ENV
+    value: "production"
+  - name: TZ
+    value: "UTC"
+  - name: LOG_LEVEL_APP
+    value: "ERROR"
+  - name: DB_HOST
+    value: "192.168.254.3"
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_NAME
+    value: "upclass"
+  - name: VAULT_ADDR
+    value: "http://192.168.254.7:8300"
+  - name: VAULT_ROLE_ID
+    value: "27d489b3-77f1-ad11-a319-ef7293aa335a"
+  - name: VAULT_ROLE_SECRET
+    value: "027c8c44-905b-cabe-aabf-6ae445c3c784"
+  - name: APP_NAME
+    value: "backend-service"
+  - name: APP_DOMAIN
+    value: "upclassedu.com"
+  - name: ENV
+    value: "prod"
+  - name: GEOLOCATION_PATTERN
+    value: "http://192.168.254.25:8080/reverse?format=json&lat={LATITUDE}&lon={LONGITUDE}&zoom=18&addressdetails=1"
 
 # Environment variables from ConfigMaps or Secrets
 envFrom: []
@@ -52,10 +68,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 5000
 
 ingress:
   enabled: false

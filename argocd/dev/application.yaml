@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: upclass-development
+  name: upclass-dev
   namespace: argocd
 spec:
   description: Upclass development project
