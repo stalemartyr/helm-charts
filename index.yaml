@@ -1,5 +1,27 @@
 apiVersion: v1
 entries:
+  app:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:20.975527728Z"
+    description: A Helm chart for Kubernetes
+    digest: 84ecc2b39c9b264ed970c44c1aa096b3baf009a16bcb95fdc65681a478f9515a
+    name: app
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/app-0.0.1/app-0.0.1.tgz
+    version: 0.0.1
+  beat:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:21.167019561Z"
+    description: A Helm chart for Mailerr Beat
+    digest: 4792d2e83b0d062353889d79504ccda41292a2299c217abbc6adb2f4cfdc3f76
+    name: beat
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/beat-0.0.1/beat-0.0.1.tgz
+    version: 0.0.1
   class-auth:
   - apiVersion: v2
     appVersion: 2.0.0
@@ -1758,4 +1780,59 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/class-worker-1.0.0/class-worker-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-30T15:38:33.349632577Z"
+  flower:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:21.296984338Z"
+    description: A Helm chart for Upclass Flower
+    digest: 720d9c009d12571ee08f4fb5f94f82f18aa76b44d118290f73313b5c53dade51
+    name: flower
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/flower-0.0.1/flower-0.0.1.tgz
+    version: 0.0.1
+  mailerr-app:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:21.430173998Z"
+    description: A Helm chart for Mailerr
+    digest: 06a2d48f943f3acb4f6948eb2570a75d370f978dd85f87acd3c723dc5ff2c2f4
+    name: mailerr-app
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/mailerr-app-0.0.1/mailerr-app-0.0.1.tgz
+    version: 0.0.1
+  mailerr-beat:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:21.557786419Z"
+    description: A Helm chart for Mailerr Beat
+    digest: d5b2001447f1765ebf66635000765bc460d41326e18a0ddf7fa8d2e680dfbf03
+    name: mailerr-beat
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/mailerr-beat-0.0.1/mailerr-beat-0.0.1.tgz
+    version: 0.0.1
+  mailerr-worker:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:21.695440733Z"
+    description: A Helm chart for Mailerr Worker
+    digest: 376886d6816b59a1fc82e5679bede0dfb6cf9650d7b808d823ed0a43176a69b6
+    name: mailerr-worker
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/mailerr-worker-0.0.1/mailerr-worker-0.0.1.tgz
+    version: 0.0.1
+  worker:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T16:33:21.842595905Z"
+    description: A Helm chart for Kubernetes
+    digest: 04f7c65619739858554f7645f418510b165ec8bdcf4ab08be65a07029c5705b8
+    name: worker
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/worker-0.0.1/worker-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-11-12T16:33:21.842760902Z"
