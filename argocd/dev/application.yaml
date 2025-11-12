@@ -42,7 +42,7 @@ spec:
     targetRevision: main
     path: configs/dev
     helm:
-      releaseName: upclass-dev
+      releaseName: upclass-dev01
   destination:
     server: https://kubernetes.default.svc
     namespace: upclass-dev01
