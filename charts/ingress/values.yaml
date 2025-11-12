@@ -15,9 +15,10 @@ ingress:
         - path: /api
           pathType: Prefix
           backend:
-            name: upclass-app
-            port:
-              number: 5000
+            service:
+              name: upclass-app
+              port:
+                number: 5000
     - host: backend.laniakea.local
       paths:
         - path: /api
