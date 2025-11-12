@@ -264,7 +264,7 @@ mailerr-beat:
     port: null
   env:
     - name: VAULT_ADDR
-      value: "http://picard.laniakea.local:8300"
+      value: "http://192.168.254.7:8300"
     - name: VAULT_ROLE_ID
       value: "27d489b3-77f1-ad11-a319-ef7293aa335a"
     - name: VAULT_ROLE_SECRET

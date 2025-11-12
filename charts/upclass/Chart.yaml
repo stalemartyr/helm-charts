@@ -26,22 +26,22 @@ appVersion: "1.16.0"
 dependencies:
   - name: app
     version: 0.0.1
-    repository: "file://charts/app"
+    repository: https://stalemartyr.github.io/helm-charts
   - name: beat
     version: 0.0.1
-    repository: "file://charts/beat"
+    repository: https://stalemartyr.github.io/helm-charts
   - name: worker
     version: 0.0.1
-    repository: "file://charts/worker"
+    repository: https://stalemartyr.github.io/helm-charts
   - name: flower
     version: 0.0.1
-    repository: "file://charts/flower"
+    repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-app
     version: 0.0.1
-    repository: "file://charts/mailerr-app"
+    repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-worker
     version: 0.0.1
-    repository: "file://charts/mailerr-worker"
+    repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-beat
     version: 0.0.1
-    repository: "file://charts/mailerr-beat"
+    repository: https://stalemartyr.github.io/helm-charts
