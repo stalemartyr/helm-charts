@@ -33,17 +33,19 @@ stringData:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: upclass-development-01
+  name: upclass-dev01
   namespace: argocd
 spec:
-  project: upclass-development
+  project: upclass-dev
   source:
     repoURL: git@github.com:stalemartyr/helm-charts.git
     targetRevision: main
     path: configs/dev
+    helm:
+      releaseName: upclass-dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: classns-dev
+    namespace: upclass-dev01
 
   syncPolicy:
     syncOptions:
