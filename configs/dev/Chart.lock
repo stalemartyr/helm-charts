@@ -1,0 +1,27 @@
+dependencies:
+- name: ingress
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.2
+- name: app
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.3
+- name: beat
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.2
+- name: flower
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.2
+- name: worker
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.2
+- name: mailerr-app
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.3
+- name: mailerr-worker
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.2
+- name: mailerr-beat
+  repository: https://stalemartyr.github.io/helm-charts
+  version: 0.0.2
+digest: sha256:75a30ed2dfdaae3e7850742e39a664f5d797028bff96d6a162e9e5024932bab3
+generated: "2025-11-13T03:18:17.017071+08:00"
