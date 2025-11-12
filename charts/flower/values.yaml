@@ -12,32 +12,45 @@ image:
 imagePullSecrets:
   - name: regsecret
 
-# Command and arguments to run in the container
-# Leave empty to use the image's default command
-command: []
-args: []
-  # Example for Flower:
-  # - celery
-  # - -A
-  # - celery_app
-  # - flower
-  # - --port=5555
+service:
+  type: ClusterIP
+  port: 5000
 
-# Environment variables
-env: []
-  # - name: NODE_ENV
-  #   value: "production"
-  # - name: DATABASE_URL
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: db-credentials
-  #       key: url
-  # Example with valueFrom:
-  # - name: SECRET_VAR
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: my-secret
-  #       key: secret-key
+args:
+  - celery
+  - -A
+  - celery_app
+  - flower
+  - --port=5000
+
+command: []
+env:
+  - name: TZ
+    value: "UTC"
+  - name: LOG_LEVEL_WORKER
+    value: "ERROR"
+  - name: DB_HOST
+    value: "192.168.254.3"
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_NAME
+    value: "upclass"
+  - name: VAULT_ADDR
+    value: "http://192.168.254.7:8300"
+  - name: VAULT_ROLE_ID
+    value: "27d489b3-77f1-ad11-a319-ef7293aa335a"
+  - name: VAULT_ROLE_SECRET
+    value: "027c8c44-905b-cabe-aabf-6ae445c3c784"
+  - name: APP_NAME
+    value: "backend-service"
+  - name: APP_DOMAIN
+    value: "upclassedu.com"
+  - name: ENV
+    value: "prod"
+  - name: C_FORCE_ROOT
+    value: "1"
+  - name: PYTHONUNBUFFERED
+    value: "1"
 
 # Environment variables from ConfigMaps or Secrets
 envFrom: []
@@ -63,10 +76,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 5000
 
 ingress:
   enabled: false

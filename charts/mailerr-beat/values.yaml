@@ -21,21 +21,34 @@ args:
   - beat
   - --loglevel=info
 
-# Environment variables
-env: []
-  # - name: NODE_ENV
-  #   value: "production"
-  # - name: DATABASE_URL
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: db-credentials
-  #       key: url
-  # Example with valueFrom:
-  # - name: SECRET_VAR
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: my-secret
-  #       key: secret-key
+service:
+  port: null
+
+env:
+  - name: VAULT_ADDR
+    value: "http://192.168.254.7:8300"
+  - name: VAULT_ROLE_ID
+    value: "27d489b3-77f1-ad11-a319-ef7293aa335a"
+  - name: VAULT_ROLE_SECRET
+    value: "027c8c44-905b-cabe-aabf-6ae445c3c784"
+  - name: APP_NAME
+    value: "backend-service"
+  - name: DB_HOST
+    value: "192.168.254.3"
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_NAME
+    value: "mailerr"
+  - name: REDIS_HOST
+    value: "192.168.254.3"
+  - name: REDIS_PORT
+    value: "6379"
+  - name: REDIS_PASSWORD
+    value: "password2025"
+  - name: REDIS_BROKER_INDEX
+    value: "4"
+  - name: REDIS_BACKEND_INDEX
+    value: "5"
 
 # Environment variables from ConfigMaps or Secrets
 envFrom: []

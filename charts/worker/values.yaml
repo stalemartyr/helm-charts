@@ -12,6 +12,9 @@ image:
 imagePullSecrets:
   - name: regsecret
 
+service:
+  port: null
+
 # Command and arguments to run in the container
 # Leave empty to use the image's default command
 command: []
@@ -25,20 +28,35 @@ args:
   - -E
 
 # Environment variables
-env: []
-  # - name: NODE_ENV
-  #   value: "production"
-  # - name: DATABASE_URL
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: db-credentials
-  #       key: url
-  # Example with valueFrom:
-  # - name: SECRET_VAR
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: my-secret
-  #       key: secret-key
+env:
+  - name: TZ
+    value: "UTC"
+  - name: LOG_LEVEL_WORKER
+    value: "ERROR"
+  - name: DB_HOST
+    value: "192.168.254.3"
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_NAME
+    value: "upclass"
+  - name: VAULT_ADDR
+    value: "http://192.168.254.7:8300"
+  - name: VAULT_ROLE_ID
+    value: "27d489b3-77f1-ad11-a319-ef7293aa335a"
+  - name: VAULT_ROLE_SECRET
+    value: "027c8c44-905b-cabe-aabf-6ae445c3c784"
+  - name: APP_NAME
+    value: "backend-service"
+  - name: APP_DOMAIN
+    value: "upclass-edu.web.app"
+  - name: ENV
+    value: "prod"
+  - name: GEOLOCATION_PATTERN
+    value: "http://192.168.254.25:8080/reverse?format=json&lat={LATITUDE}&lon={LONGITUDE}&zoom=18&addressdetails=1"
+  - name: C_FORCE_ROOT
+    value: "1"
+  - name: PYTHONUNBUFFERED
+    value: "1"
 
 # Environment variables from ConfigMaps or Secrets
 envFrom: []
