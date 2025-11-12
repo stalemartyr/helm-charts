@@ -1821,6 +1821,17 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/flower-0.0.1/flower-0.0.1.tgz
     version: 0.0.1
+  ingress:
+  - apiVersion: v2
+    appVersion: 0.0.0.1
+    created: "2025-11-12T17:19:41.541732619Z"
+    description: A Helm chart for Kubernetes Ingress configuration
+    digest: 25e98b1ab365085625854566ddedbdbc2612a81932811a1d0aef3be7e0290458
+    name: ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/ingress-0.0.1/ingress-0.0.1.tgz
+    version: 0.0.1
   mailerr-app:
   - apiVersion: v2
     appVersion: 0.0.0.1
@@ -1916,4 +1927,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/worker-0.0.1/worker-0.0.1.tgz
     version: 0.0.1
-generated: "2025-11-12T17:16:01.706125486Z"
+generated: "2025-11-12T17:19:41.541914477Z"
