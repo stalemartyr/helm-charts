@@ -1,0 +1,8 @@
+Worker has been deployed successfully.
+
+To check the worker status:
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "app.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  kubectl logs --namespace {{ .Release.Namespace }} $POD_NAME
+
+To verify the worker is processing tasks:
+  kubectl exec --namespace {{ .Release.Namespace }} $POD_NAME -- celery -A celery_app inspect ping

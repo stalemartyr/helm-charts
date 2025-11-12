@@ -1,6 +1,6 @@
 apiVersion: v2
-name: class-worker
-description: A Helm chart for Worker service
+name: upclass
+description: A Helm chart for Kubernetes Ingress configuration
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,9 +15,33 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.0.5
+version: 0.1.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 2.0.0
+# It is recommended to use it with quotes.
+appVersion: "1.16.0"
+
+dependencies:
+  - name: app
+    version: 0.0.1
+    repository: "file://charts/app"
+  - name: beat
+    version: 0.0.1
+    repository: "file://charts/beat"
+  - name: worker
+    version: 0.0.1
+    repository: "file://charts/worker"
+  - name: flower
+    version: 0.0.1
+    repository: "file://charts/flower"
+  - name: mailerr-app
+    version: 0.0.1
+    repository: "file://charts/mailerr-app"
+  - name: mailerr-worker
+    version: 0.0.1
+    repository: "file://charts/mailerr-worker"
+  - name: mailerr-beat
+    version: 0.0.1
+    repository: "file://charts/mailerr-beat"
