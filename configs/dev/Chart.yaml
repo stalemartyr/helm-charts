@@ -1,0 +1,30 @@
+apiVersion: v2
+name: upclass
+version: 0.1.0
+appVersion: "1.16.0"
+
+dependencies:
+  - name: ingress
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: app
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: beat
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: flower
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: worker
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: mailerr-app
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: mailerr-worker
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
+  - name: mailerr-beat
+    version: 0.0.2
+    repository: https://stalemartyr.github.io/helm-charts
