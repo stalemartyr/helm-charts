@@ -5,7 +5,7 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: ingress
-    version: 0.0.2
+    version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: app
     version: 0.0.3

@@ -1,0 +1,14 @@
+# Enable the dashboard
+dashboard:
+  enabled: true
+
+# Enable RBAC
+rbac:
+  enabled: true
+
+# Additional arguments to Traefik
+additionalArguments:
+  - "--api.dashboard=true"
+  - "--log.level=INFO"
+  - "--providers.kubernetesingress.ingressclass=traefik-internal"
+  - "--serversTransport.insecureSkipVerify=true"
