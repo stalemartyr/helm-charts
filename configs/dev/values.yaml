@@ -1,4 +1,4 @@
-ingress:
+upclass-ingress:
   ingress:
     enabled: true
     className: "haproxy"

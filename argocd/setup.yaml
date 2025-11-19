@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: upclass
+  namespace: argocd
+spec:
+  description: Upclass Production project
+  sourceRepos:
+    - "*"
+  destinations:
+    - namespace: "*"
+      server: "*"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: upclass-helm
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: upclass-helm
+  url: stalemartyr.github.io/helm-charts
+  type: helm
+  enableOCI: "true"
+  project: upclass
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: upclass-git
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: upclass-git
+  type: git
+  url: git@github.com:stalemartyr/helm-charts.git
+  sshPrivateKey: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    -----END OPENSSH PRIVATE KEY-----
+  project: upclass
