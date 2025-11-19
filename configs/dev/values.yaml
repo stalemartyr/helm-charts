@@ -7,7 +7,7 @@ ingress:
       nginx.ingress.kubernetes.io/proxy-set-header-Upgrade: "$http_upgrade"
       nginx.ingress.kubernetes.io/proxy-set-header-Connection: "upgrade"
     hosts:
-      - host: backend.npr.upclassedu.com
+      - host: backend.upclassedu.com
         paths:
           - path: /api
             pathType: Prefix
@@ -16,7 +16,7 @@ ingress:
                 name: upclass-app
                 port:
                   number: 5000
-      - host: backend.npr.laniakea.local
+      - host: backend.laniakea.local
         paths:
           - path: /api
             pathType: Prefix
@@ -25,7 +25,7 @@ ingress:
                 name: upclass-app
                 port:
                   number: 5000
-      - host: flower.npr.laniakea.local
+      - host: flower.laniakea.local
         paths:
           - path: /
             pathType: Prefix
@@ -34,7 +34,7 @@ ingress:
                 name: upclass-flower
                 port:
                   number: 5000
-      - host: mailerr.npr.laniakea.local
+      - host: mailerr.laniakea.local
         paths:
           - path: /
             pathType: Prefix
