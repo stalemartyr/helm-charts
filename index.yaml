@@ -1834,6 +1834,16 @@ entries:
   ingress:
   - apiVersion: v2
     appVersion: 0.0.0.1
+    created: "2025-11-19T09:30:36.285035485Z"
+    description: A Helm chart for Kubernetes Ingress configuration
+    digest: 33db226ba8cb876d5df7eeedd6dff78319c2645b55cec99894a83c260fef5b51
+    name: ingress
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/ingress-0.0.4/ingress-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 0.0.0.1
     created: "2025-11-15T19:18:59.359347104Z"
     description: A Helm chart for Kubernetes Ingress configuration
     digest: 00e400f098192e59d9ca58055b6f4dbe1beab4ccfada188e7e001ac0d40541e5
@@ -1967,4 +1977,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/worker-0.0.1/worker-0.0.1.tgz
     version: 0.0.1
-generated: "2025-11-15T19:18:59.359807753Z"
+generated: "2025-11-19T09:30:36.285266698Z"
