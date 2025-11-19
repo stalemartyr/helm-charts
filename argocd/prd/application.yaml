@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: upclass-prd
+  namespace: argocd
+spec:
+  description: Upclass development project
+  sourceRepos:
+    - "*"
+  destinations:
+    - namespace: "*"
+      server: "*"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: upclass
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: upclass
+  url: stalemartyr.github.io/helm-charts
+  type: helm
+  enableOCI: "true"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: upclass-prd01
+  namespace: argocd
+spec:
+  project: upclass-prd
+  source:
+    repoURL: git@github.com:stalemartyr/helm-charts.git
+    targetRevision: main
+    path: configs/prod
+    helm:
+      releaseName: upclass-prd01
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: upclass-prd01
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

@@ -1,4 +1,8 @@
+crds:
+  install: true
 controller:
+  replicaCoutn: 4
+  enableGatewayAPI: true
   service:
     type: LoadBalancer
   config:

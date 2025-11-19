@@ -1,14 +1,15 @@
-# Enable the dashboard
-dashboard:
-  enabled: true
-
-# Enable RBAC
-rbac:
-  enabled: true
-
-# Additional arguments to Traefik
-additionalArguments:
-  - "--api.dashboard=true"
-  - "--log.level=INFO"
-  - "--providers.kubernetesingress.ingressclass=traefik-internal"
-  - "--serversTransport.insecureSkipVerify=true"
+# values.yaml
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: Host(`traefik.laniakea.local`)
+    entryPoints:
+      - web
+providers:
+  kubernetesGateway:
+    enabled: true
+gateway:
+  listeners:
+    web:
+      namespacePolicy:
+        from: All

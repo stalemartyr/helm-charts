@@ -1,0 +1,14 @@
+app:
+  fullnameOverride: "upclass-app"
+beat:
+  fullnameOverride: "upclass-beat"
+worker:
+  fullnameOverride: "upclass-worker"
+flower:
+  fullnameOverride: "upclass-flower"
+mailerr-app:
+  fullnameOverride: "upclass-mailerr"
+mailerr-worker:
+  fullnameOverride: "upclass-mailerr-worker"
+mailerr-beat:
+  fullnameOverride: "upclass-mailerr-beat"
