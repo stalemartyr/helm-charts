@@ -1,3 +1,48 @@
+ingress:
+  ingress:
+    enabled: true
+    className: "haproxy"
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+      nginx.ingress.kubernetes.io/proxy-set-header-Upgrade: "$http_upgrade"
+      nginx.ingress.kubernetes.io/proxy-set-header-Connection: "upgrade"
+    hosts:
+      - host: backend.npr.upclassedu.com
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: upclass-app
+                port:
+                  number: 5000
+      - host: backend.npr.laniakea.local
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: upclass-app
+                port:
+                  number: 5000
+      - host: flower.npr.laniakea.local
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: upclass-flower
+                port:
+                  number: 5000
+      - host: mailerr.npr.laniakea.local
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: upclass-mailerr
+                port:
+                number: 9999
 app:
   fullnameOverride: "upclass-app"
 beat:
