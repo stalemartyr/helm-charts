@@ -1,4 +1,4 @@
-upclass-ingress:
+ingress:
   ingress:
     enabled: true
     className: "haproxy"
@@ -42,7 +42,7 @@ upclass-ingress:
               service:
                 name: upclass-mailerr
                 port:
-                number: 9999
+                  number: 9999
 app:
   fullnameOverride: "upclass-app"
 beat:

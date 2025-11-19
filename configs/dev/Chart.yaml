@@ -4,7 +4,7 @@ version: 0.1.1
 appVersion: "1.16.0"
 
 dependencies:
-  - name: upclass-ingress
+  - name: ingress
     version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: app
