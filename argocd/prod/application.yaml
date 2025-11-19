@@ -20,12 +20,12 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: upclass
+  name: upclass-prd01
   namespace: argocd
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
-  name: upclass
+  name: upclass-prd01
   url: stalemartyr.github.io/helm-charts
   type: helm
   enableOCI: "true"
