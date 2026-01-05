@@ -8,7 +8,7 @@ dependencies:
     version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: app
-    version: 0.0.3
+    version: 0.0.4
     repository: https://stalemartyr.github.io/helm-charts
   - name: beat
     version: 0.0.2
@@ -17,14 +17,14 @@ dependencies:
     version: 0.0.2
     repository: https://stalemartyr.github.io/helm-charts
   - name: worker
-    version: 0.0.2
-    repository: https://stalemartyr.github.io/helm-charts
-  - name: mailerr-app
     version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
+  - name: mailerr-app
+    version: 0.0.4
+    repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-worker
-    version: 0.0.2
+    version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: mailerr-beat
-    version: 0.0.2
+    version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
