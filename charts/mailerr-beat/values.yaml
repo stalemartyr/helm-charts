@@ -40,7 +40,7 @@ env:
   - name: DB_NAME
     value: "mailerr"
   - name: REDIS_HOST
-    value: "192.168.254.3"
+    value: "192.168.254.8"
   - name: REDIS_PORT
     value: "6379"
   - name: REDIS_PASSWORD

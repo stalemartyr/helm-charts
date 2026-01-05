@@ -34,7 +34,7 @@ env:
   - name: LOG_LEVEL_WORKER
     value: "ERROR"
   - name: DB_HOST
-    value: "192.168.254.3"
+    value: "192.168.254.8"
   - name: DB_PORT
     value: "3306"
   - name: DB_NAME
