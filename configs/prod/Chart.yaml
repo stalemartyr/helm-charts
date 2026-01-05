@@ -8,7 +8,7 @@ dependencies:
     version: 0.0.3
     repository: https://stalemartyr.github.io/helm-charts
   - name: app
-    version: 0.0.3
+    version: 0.0.4
     repository: https://stalemartyr.github.io/helm-charts
   - name: beat
     version: 0.0.2
