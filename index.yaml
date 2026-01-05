@@ -3,6 +3,16 @@ entries:
   app:
   - apiVersion: v2
     appVersion: 0.0.0.1
+    created: "2026-01-05T15:04:39.467776825Z"
+    description: A Helm chart for Kubernetes
+    digest: 52443b023369aa163e65c5d2abcdb547b4cea5503f0274bb724210375f12ddec
+    name: app
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/app-0.0.4/app-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 0.0.0.1
     created: "2025-11-12T19:10:40.891289792Z"
     description: A Helm chart for Kubernetes
     digest: a48bc06ae9afe52ebc1fbcd1c13dbb3eb00060c349f36085c56696af4a9da8b7
@@ -1977,4 +1987,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/worker-0.0.1/worker-0.0.1.tgz
     version: 0.0.1
-generated: "2025-11-19T09:30:36.285266698Z"
+generated: "2026-01-05T15:04:39.467981987Z"
