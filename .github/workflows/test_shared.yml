@@ -13,6 +13,6 @@ jobs:
         run: echo "hello"
 
   run_awx:
-    uses: stalemartyr/shared_workflow/.github/workflows/test_shared.yml@shared
+    uses: stalemartyr/shared_workflow/.github/workflows/test_shared.yaml@shared
     with:
       AWX_URL: "hello hello"
