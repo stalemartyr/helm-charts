@@ -1,0 +1,17 @@
+ingress:
+  controller: "gatewayapi"
+  gatewayapi:
+    gateways:
+    - name: "terrakube-gateway"
+      namespace: "terrakube"
+  ui:
+    enabled: true
+    domain: "terrakube-ui.example.com"
+  api:
+    enabled: true
+    domain: "terrakube-api.example.com"
+  registry:
+    enabled: true
+    domain: "terrakube-registry.example.com"
+  executor:
+    enabled: false

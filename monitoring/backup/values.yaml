@@ -1,0 +1,37 @@
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+alertmanager:
+  alertmanagerSpec:
+    replicas: 2
+  config:
+    global:
+      smtp_smarthost: 137.184.240.106:587
+      smtp_from: noreply@jimbertamante.com
+      smtp_auth_username: noreply@jimbertamante.com
+      smtp_auth_password: H9y4byYhH2wAgQgSs6442nHAdPQvREXg
+    route:
+      receiver: upclass-team-a
+      repeat_interval: 5m
+    receivers:
+      - name: upclass-team-a
+        email_configs:
+          - to: jimbertamante@gmail.com
+            from: noreply@jimbertamante.com
+            smarthost: 137.184.240.106:587
+            auth_username: noreply@jimbertamante.com
+            auth_password: H9y4byYhH2wAgQgSs6442nHAdPQvREXg
+grafana:
+  adminPassword: St4l3M4rtyr1992
+  service:
+    type: LoadBalancer
+prometheus-blackbox-exporter:
+  config:
+    modules:
+      https_2xx:
+        prober: http
+        http:
+          tls_config:
+            insecure_skip_verify: true

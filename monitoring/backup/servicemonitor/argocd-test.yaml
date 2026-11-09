@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: prometheus-blackbox-exporter-argocd
+  name: prometheus-blackbox-exporter-argocd
+  namespace: monitoring
+spec:
+  endpoints:
+    - interval: 10s
+      port: http
+      scheme: http
+      scrapeTimeout: 60s
+      path: /probe
+      params:
+        module:
+          - http_2xx
+        target:
+          - "https://192.168.254.241"
+      metricRelabelings:
+        - action: replace
+          replacement: argocd
+          targetLabel: target_app
+  selector:
+    matchLabels:
+      app: prometheus-blackbox-exporter

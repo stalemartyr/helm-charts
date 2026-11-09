@@ -2,14 +2,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: traefik-httproute-test
+  name: flower-httproute
   namespace: upclass-dev01
 spec:
   parentRefs:
+    ## check the gateway resource in traefik
     - name: traefik-gateway
       namespace: traefik
+      kind: Gateway
   hostnames:
-    - flower.haproxy.laniakea.local
+    - flower-traefik.laniakea.local
   rules:
     - matches:
         - path:
@@ -18,3 +20,4 @@ spec:
       backendRefs:
         - name: upclass-flower
           port: 5000
+          namespace: upclass-dev01

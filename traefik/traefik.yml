@@ -5,11 +5,35 @@ ingressRoute:
     matchRule: Host(`traefik.laniakea.local`)
     entryPoints:
       - web
+      #- websecure
 providers:
   kubernetesGateway:
     enabled: true
 gateway:
+  enables: true
   listeners:
     web:
+      port: 80
+      protocol: HTTP
+      hostname: "*.laniakea.local"
       namespacePolicy:
         from: All
+    #secureweb:
+    #  port: 443
+    #  protocol: HTTPS
+    #  hostname: "*.tf.laniakea.local"
+    #  namespacePolicy:
+    #    from: All
+ports:
+  web:
+    port: 80
+    expose:
+      default: true
+    exposedPort: 80
+    protocol: TCP
+  #secureweb:
+  #  port: 443
+  #  expose:
+  #    default: true
+  #  exposedPort: 443
+  #  protocol: TCP

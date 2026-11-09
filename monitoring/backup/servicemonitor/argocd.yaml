@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: prometheus-blackbox
+    app.kubernetes.io/instance: pbe-dev
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: prometheus-blackbox-exporter
+    app.kubernetes.io/version: v1.33.6
+    helm.sh/chart: prometheus-blackbox-exporter-11.8.0
+    release: prometheus-stack
+  name: upclass-local-argocd
+  namespace: monitoring
+spec:
+  endpoints:
+    - honorTimestamps: true
+      interval: 60s
+      relabelings:
+        - sourceLabels: [__param_target]
+          targetLabel: instance
+        - replacement: argocd
+          targetLabel: target_app
+      params:
+        module:
+          - https_2xx
+        target:
+          - https://192.168.254.241/healthz
+      path: /probe
+      port: http
+      scheme: http
+      scrapeTimeout: 30s
+  jobLabel: upclass-local
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus-blackbox-exporter

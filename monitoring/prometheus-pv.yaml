@@ -1,0 +1,104 @@
+# PersistentVolume for Prometheus
+# Apply with: kubectl apply -f prometheus-pv.yaml
+# NFS Server: 192.168.254.10
+# NFS Base Path: /CLUSTER
+
+---
+# PersistentVolume for Prometheus data
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-data-pv
+  labels:
+    app: prometheus
+    component: data
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  nfs:
+    server: 192.168.254.10
+    path: /CLUSTER/prometheus
+
+---
+# PersistentVolume for Alertmanager data (replica 1)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alertmanager-data-pv-0
+  labels:
+    app: alertmanager
+    component: data
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  nfs:
+    server: 192.168.254.10
+    path: /CLUSTER/alertmanager-0
+
+---
+# PersistentVolume for Alertmanager data (replica 2)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alertmanager-data-pv-1-new
+  labels:
+    app: alertmanager
+    component: data
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  nfs:
+    server: 192.168.254.10
+    path: /CLUSTER/alertmanager-1
+
+---
+# PersistentVolume for Grafana
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana-data-pv-new
+  labels:
+    app: grafana
+    component: data
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  nfs:
+    server: 192.168.254.10
+    path: /CLUSTER/grafana
+
+---
+# PersistentVolume for Loki
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: loki-data-pv
+  labels:
+    app: loki
+    component: data
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  nfs:
+    server: 192.168.254.10
+    path: /CLUSTER/loki

@@ -8,8 +8,8 @@ spec:
     - name: traefik
       namespace: traefik
   hostnames:
-    - "localhost"
-    #- "traefik.laniakea.local"
+    #- "localhost"
+    - "traefik.laniakea.local"
   rules:
     - matches:
         - path:

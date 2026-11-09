@@ -1,0 +1,419 @@
+# PrometheusRule Examples
+# These examples show how to create custom alerting and recording rules
+
+---
+# Example 1: Basic Application Alerts
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: app-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack  # Important: matches the Prometheus release name
+spec:
+  groups:
+    - name: application
+      interval: 30s
+      rules:
+        # Alert when pod is down
+        - alert: PodDown
+          expr: up{job="my-app"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod {{ $labels.instance }} is down"
+            description: "Pod {{ $labels.instance }} has been down for more than 5 minutes."
+
+        # Alert on high error rate
+        - alert: HighErrorRate
+          expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High error rate on {{ $labels.instance }}"
+            description: "Error rate is {{ $value }} errors/sec"
+
+---
+# Example 2: Resource Alerts
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: resource-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: resources
+      interval: 30s
+      rules:
+        # High CPU usage
+        - alert: HighCPUUsage
+          expr: |
+            100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage on {{ $labels.instance }}"
+            description: "CPU usage is {{ $value }}%"
+
+        # High memory usage
+        - alert: HighMemoryUsage
+          expr: |
+            (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 80
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High memory usage on {{ $labels.instance }}"
+            description: "Memory usage is {{ $value }}%"
+
+        # Disk space running low
+        - alert: DiskSpaceLow
+          expr: |
+            (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 20
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Disk space low on {{ $labels.instance }}"
+            description: "Only {{ $value }}% disk space remaining"
+
+        # Disk will fill in 4 hours
+        - alert: DiskWillFillSoon
+          expr: |
+            predict_linear(node_filesystem_avail_bytes{mountpoint="/"}[1h], 4*3600) < 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Disk will fill soon on {{ $labels.instance }}"
+            description: "Disk is expected to fill in the next 4 hours"
+
+---
+# Example 3: Kubernetes Pod Alerts
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kubernetes-pod-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: kubernetes-pods
+      interval: 30s
+      rules:
+        # Pod restarting frequently
+        - alert: PodRestartingFrequently
+          expr: rate(kube_pod_container_status_restarts_total[15m]) > 0.1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is restarting frequently"
+            description: "Pod has restarted {{ $value }} times in the last 15 minutes"
+
+        # Pod CrashLoopBackOff
+        - alert: PodCrashLooping
+          expr: |
+            kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"} > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping"
+            description: "Pod is in CrashLoopBackOff state"
+
+        # Pod not ready
+        - alert: PodNotReady
+          expr: |
+            kube_pod_status_phase{phase!~"Running|Succeeded"} > 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} not ready"
+            description: "Pod has been in {{ $labels.phase }} state for more than 10 minutes"
+
+        # Container waiting
+        - alert: ContainerWaiting
+          expr: |
+            kube_pod_container_status_waiting_reason{reason!=""} > 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Container waiting in pod {{ $labels.namespace }}/{{ $labels.pod }}"
+            description: "Container is waiting due to: {{ $labels.reason }}"
+
+---
+# Example 4: Database Alerts (PostgreSQL)
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: database-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: postgresql
+      interval: 30s
+      rules:
+        # Database down
+        - alert: PostgreSQLDown
+          expr: pg_up == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "PostgreSQL is down on {{ $labels.instance }}"
+            description: "PostgreSQL database has been down for more than 1 minute"
+
+        # Too many connections
+        - alert: PostgreSQLTooManyConnections
+          expr: |
+            sum by (instance) (pg_stat_activity_count) > (pg_settings_max_connections * 0.8)
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "PostgreSQL has too many connections"
+            description: "{{ $value }} connections (80% of max)"
+
+        # Replication lag
+        - alert: PostgreSQLReplicationLag
+          expr: |
+            pg_replication_lag > 30
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "PostgreSQL replication lag is high"
+            description: "Replication lag is {{ $value }} seconds"
+
+---
+# Example 5: Redis Alerts
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: redis-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: redis
+      interval: 30s
+      rules:
+        # Redis down
+        - alert: RedisDown
+          expr: redis_up == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Redis is down on {{ $labels.instance }}"
+            description: "Redis has been down for more than 1 minute"
+
+        # High memory usage
+        - alert: RedisHighMemory
+          expr: |
+            (redis_memory_used_bytes / redis_memory_max_bytes) * 100 > 90
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Redis memory usage is high"
+            description: "Redis is using {{ $value }}% of max memory"
+
+        # Too many rejected connections
+        - alert: RedisRejectedConnections
+          expr: rate(redis_rejected_connections_total[5m]) > 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Redis is rejecting connections"
+            description: "{{ $value }} connections rejected per second"
+
+---
+# Example 6: HTTP/API Alerts
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: http-api-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: http-api
+      interval: 30s
+      rules:
+        # High response time
+        - alert: HighResponseTime
+          expr: |
+            histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High API response time"
+            description: "95th percentile response time is {{ $value }}s"
+
+        # Low success rate
+        - alert: LowSuccessRate
+          expr: |
+            (sum(rate(http_requests_total{status=~"2.."}[5m])) / sum(rate(http_requests_total[5m]))) * 100 < 95
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Low API success rate"
+            description: "Success rate is {{ $value }}%"
+
+        # API endpoint down
+        - alert: EndpointDown
+          expr: probe_success{job="blackbox"} == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Endpoint {{ $labels.instance }} is down"
+            description: "Endpoint has been down for more than 2 minutes"
+
+---
+# Example 7: Recording Rules (Pre-computed Queries)
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: recording-rules
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: recording-rules
+      interval: 30s
+      rules:
+        # Record API request rate per service
+        - record: job:http_requests:rate5m
+          expr: sum by (job) (rate(http_requests_total[5m]))
+
+        # Record CPU usage per pod
+        - record: pod:cpu_usage:rate5m
+          expr: |
+            sum by (pod, namespace) (
+              rate(container_cpu_usage_seconds_total{container!=""}[5m])
+            )
+
+        # Record memory usage per pod
+        - record: pod:memory_usage:bytes
+          expr: |
+            sum by (pod, namespace) (
+              container_memory_usage_bytes{container!=""}
+            )
+
+        # Record disk usage percentage
+        - record: node:disk_usage:percent
+          expr: |
+            (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100
+
+---
+# Example 8: Business Metrics Alerts
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: business-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: business-metrics
+      interval: 60s
+      rules:
+        # Low transaction rate
+        - alert: LowTransactionRate
+          expr: rate(transactions_total[5m]) < 10
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Transaction rate is low"
+            description: "Only {{ $value }} transactions per second"
+
+        # Payment failures
+        - alert: HighPaymentFailureRate
+          expr: |
+            (sum(rate(payments_total{status="failed"}[5m])) / sum(rate(payments_total[5m]))) * 100 > 5
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High payment failure rate"
+            description: "{{ $value }}% of payments are failing"
+
+---
+# Example 9: Certificate Expiry Alert
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: certificate-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: certificates
+      interval: 1h
+      rules:
+        # Certificate expiring soon
+        - alert: CertificateExpiringSoon
+          expr: |
+            (probe_ssl_earliest_cert_expiry - time()) / 86400 < 30
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "SSL certificate expiring soon for {{ $labels.instance }}"
+            description: "Certificate will expire in {{ $value }} days"
+
+        # Certificate expired
+        - alert: CertificateExpired
+          expr: |
+            probe_ssl_earliest_cert_expiry - time() < 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "SSL certificate expired for {{ $labels.instance }}"
+            description: "Certificate has expired"
+
+---
+# Example 10: Deadman Switch (Ensures alerting is working)
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: watchdog-alert
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  groups:
+    - name: meta
+      interval: 30s
+      rules:
+        # This alert should always fire - if it doesn't, alerting is broken
+        - alert: Watchdog
+          expr: vector(1)
+          labels:
+            severity: none
+          annotations:
+            summary: "Alerting system is alive"
+            description: "This is a watchdog alert that should always be firing. If you don't receive this, alerting is broken."

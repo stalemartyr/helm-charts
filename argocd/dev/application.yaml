@@ -12,6 +12,7 @@ spec:
     path: configs/dev
     helm:
       releaseName: upclass-dev01
+      #valueFiles:
   destination:
     server: https://kubernetes.default.svc
     namespace: upclass-dev01

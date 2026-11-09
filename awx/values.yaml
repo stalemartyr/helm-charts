@@ -1,0 +1,46 @@
+AWX:
+  # configurations for external postgres instance
+  postgres:
+    enabled: false
+
+extraDeploy:
+  - |
+    apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: {{ .Release.Name }}-postgres-secret-string-example
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      secretStoreRef:
+        name: vault
+        kind: ClusterSecretStore
+      refreshInterval: "1h"
+      target:
+        name: postgres-configuration-secret-string-example
+        creationPolicy: "Owner"
+        deletionPolicy: "Delete"
+      dataFrom:
+        - extract:
+            key: awx/postgres-configuration-secret
+
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: "{{ .Release.Name }}-postgres-secret-yaml-example"
+      namespace: "{{ .Release.Namespace }}"
+      labels:
+        app: "{{ .Release.Name }}"
+    spec:
+      secretStoreRef:
+        name: vault
+        kind: ClusterSecretStore
+      refreshInterval: "1h"
+      target:
+        name: postgres-configuration-secret-yaml-example
+        creationPolicy: "Owner"
+        deletionPolicy: "Delete"
+      dataFrom:
+        - extract:
+            key: awx/postgres-configuration-secret

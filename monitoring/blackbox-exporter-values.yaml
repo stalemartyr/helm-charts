@@ -1,0 +1,180 @@
+# Prometheus Blackbox Exporter Values
+# Used for probing HTTP/HTTPS/TCP/ICMP endpoints
+# Install with: helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -f blackbox-exporter-values.yaml
+
+# ============================================
+# BLACKBOX EXPORTER CONFIGURATION
+# ============================================
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 9115
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9115"
+
+# Resources
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+# Blackbox exporter configuration
+config:
+  modules:
+    # HTTP 2xx check
+    http_2xx:
+      prober: http
+      timeout: 5s
+      http:
+        valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+        valid_status_codes: [] # Defaults to 2xx
+        method: GET
+        preferred_ip_protocol: "ip4"
+        follow_redirects: true
+
+    # HTTPS 2xx check (skip cert verification)
+    https_2xx:
+      prober: http
+      timeout: 5s
+      http:
+        valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+        method: GET
+        preferred_ip_protocol: "ip4"
+        follow_redirects: true
+        tls_config:
+          insecure_skip_verify: true
+
+    # HTTPS 2xx check (with cert verification)
+    https_2xx_verify:
+      prober: http
+      timeout: 30s
+      http:
+        valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+        method: GET
+        preferred_ip_protocol: "ip4"
+        follow_redirects: true
+        tls_config:
+          insecure_skip_verify: false
+
+    # HTTP POST check
+    http_post_2xx:
+      prober: http
+      timeout: 30s
+      http:
+        method: POST
+        preferred_ip_protocol: "ip4"
+        follow_redirects: true
+
+    # TCP connection check
+    tcp_connect:
+      prober: tcp
+      timeout: 5s
+
+    # ICMP ping check
+    icmp:
+      prober: icmp
+      timeout: 5s
+      icmp:
+        preferred_ip_protocol: "ip4"
+
+    # DNS check
+    dns_check:
+      prober: dns
+      timeout: 30s
+      dns:
+        preferred_ip_protocol: "ip4"
+        query_name: "google.com"
+        query_type: "A"
+
+# ServiceMonitor for Prometheus Operator
+serviceMonitor:
+  enabled: true
+  defaults:
+    labels:
+      release: prometheus-stack
+    interval: 60s
+    scrapeTimeout: 30s
+
+  # Define targets to probe
+  targets:
+    - name: jellyfin-probe
+      url: https://jellyfin.jimbertamante.com
+      module: https_2xx
+      interval: 30s
+    - name: tubearchivist-probe
+      url: https://tubearchiver.jimbertamante.com
+      module: https_2xx
+      interval: 30s
+    - name: qbittorrent-probe
+      url: https://qbittorrent.jimbertamante.com
+      module: https_2xx
+      interval: 30s
+    - name: upclass-backend-probe
+      url: https://backend.upclassedu.com/api/status
+      module: https_2xx
+      interval: 30s
+    - name: radarr-probe
+      url: http://192.168.254.5:7878
+      module: http_2xx
+      interval: 30s
+    - name: sonarr-probe
+      url: http://192.168.254.5:8989
+      module: http_2xx
+      interval: 30s
+    - name: prowlarr-probe
+      url: http://192.168.254.5:9696
+      module: http_2xx
+      interval: 30s
+
+    # Add your own targets here
+    # - name: my-api
+    #   url: https://api.myapp.com/health
+    #   module: https_2xx
+    #   interval: 60s
+
+# Pod annotations
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9115"
+
+# Replicas
+replicas: 1
+
+# Pod security context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Container security context
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+      - ALL
+    add:
+      - NET_RAW # Required for ICMP probes
+
+# Liveness probe
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 9115
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+# Readiness probe
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 9115
+  initialDelaySeconds: 5
+  periodSeconds: 10

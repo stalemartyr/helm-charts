@@ -1,0 +1,275 @@
+# ServiceMonitor Examples
+# These examples show how to monitor your applications with Prometheus
+
+---
+# Example 1: Basic Application Monitoring
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: my-app-metrics
+  namespace: monitoring
+  labels:
+    app: my-app
+    release: prometheus-stack  # Important: matches the Prometheus release name
+spec:
+  # Select services with matching labels
+  selector:
+    matchLabels:
+      app: my-app
+  # Which namespaces to look for services in
+  namespaceSelector:
+    matchNames:
+      - default
+      - production
+  # Endpoint configuration
+  endpoints:
+    - port: metrics  # Named port in your service
+      interval: 30s
+      path: /metrics
+      scheme: http
+
+---
+# Example 2: Monitoring Across All Namespaces
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-ingress-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: nginx-ingress
+  # Monitor in any namespace
+  namespaceSelector:
+    any: true
+  endpoints:
+    - port: metrics
+      interval: 15s
+
+---
+# Example 3: Multiple Endpoints
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: multi-port-app
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: my-complex-app
+  namespaceSelector:
+    matchNames:
+      - default
+  endpoints:
+    # Application metrics
+    - port: app-metrics
+      interval: 30s
+      path: /metrics
+    # JVM metrics
+    - port: jvm-metrics
+      interval: 30s
+      path: /jvm-metrics
+    # Custom business metrics
+    - port: business-metrics
+      interval: 60s
+      path: /business/metrics
+
+---
+# Example 4: With Relabeling (Advanced)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: app-with-relabeling
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  namespaceSelector:
+    matchNames:
+      - production
+  endpoints:
+    - port: metrics
+      interval: 30s
+      # Add custom labels to metrics
+      relabelings:
+        # Add environment label
+        - sourceLabels: [__meta_kubernetes_namespace]
+          targetLabel: environment
+          replacement: production
+        # Add cluster label
+        - targetLabel: cluster
+          replacement: production-cluster
+        # Drop specific metrics
+        - sourceLabels: [__name__]
+          regex: 'go_gc_.*'
+          action: drop
+
+---
+# Example 5: HTTPS with TLS
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: secure-app-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: secure-app
+  namespaceSelector:
+    matchNames:
+      - default
+  endpoints:
+    - port: https-metrics
+      interval: 30s
+      scheme: https
+      tlsConfig:
+        # Skip TLS verification (not recommended for production)
+        insecureSkipVerify: true
+        # Or use CA cert
+        # ca:
+        #   secret:
+        #     name: my-ca-cert
+        #     key: ca.crt
+
+---
+# Example 6: With Basic Auth
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: protected-app-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: protected-app
+  namespaceSelector:
+    matchNames:
+      - default
+  endpoints:
+    - port: metrics
+      interval: 30s
+      basicAuth:
+        username:
+          name: metrics-auth
+          key: username
+        password:
+          name: metrics-auth
+          key: password
+
+---
+# Example 7: PostgreSQL Database Monitoring
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgres-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  namespaceSelector:
+    matchNames:
+      - database
+  endpoints:
+    - port: metrics
+      interval: 30s
+      path: /metrics
+
+---
+# Example 8: Redis Monitoring
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: redis-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: redis-exporter
+  namespaceSelector:
+    matchNames:
+      - cache
+  endpoints:
+    - port: metrics
+      interval: 15s
+
+---
+# Example 9: Custom Scrape Timeout
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: slow-app-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: slow-app
+  namespaceSelector:
+    matchNames:
+      - default
+  endpoints:
+    - port: metrics
+      interval: 60s
+      scrapeTimeout: 30s  # Must be less than interval
+      path: /metrics
+
+---
+# Example 10: Filtering by Label Selectors
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: filtered-apps
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      monitoring: enabled
+    matchExpressions:
+      - key: environment
+        operator: In
+        values:
+          - production
+          - staging
+      - key: team
+        operator: Exists
+  namespaceSelector:
+    any: true
+  endpoints:
+    - port: metrics
+      interval: 30s
+
+---
+# Corresponding Kubernetes Service Example
+# This is what your application service should look like
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app
+  namespace: default
+  labels:
+    app: my-app
+    monitoring: enabled
+spec:
+  selector:
+    app: my-app
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: metrics  # Named port for Prometheus
+      port: 9090
+      targetPort: 9090
+  type: ClusterIP
+
+---
+# Secret for Basic Auth Example
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metrics-auth
+  namespace: monitoring
+type: Opaque
+stringData:
+  username: prometheus
+  password: secure-password-here
