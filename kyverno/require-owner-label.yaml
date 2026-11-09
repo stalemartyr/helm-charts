@@ -1,0 +1,30 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-labels
+spec:
+  validationActions:
+    - Audit
+    - Warn
+    #- Deny
+  matchConditions:
+    - name: default-exception
+      expression: >-
+        request.namespace != 'kube-system' &&
+        request.namespace != 'monitoring' &&
+        request.namespace != 'metallb-system' &&
+        request.namespace != 'traefik' &&
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+        resourceNames:
+          - nginx
+  validations:
+    - message: "label 'owner' is required"
+      expression: "'owner' in object.metadata.?labels.orValue([])"

@@ -3,9 +3,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kyverno
-  namespace: kyverno
+  namespace: argocd
 spec:
-  project: security
+  project: upclass
   source:
     repoURL: git@github.com:stalemartyr/helm-charts.git
     targetRevision: main
