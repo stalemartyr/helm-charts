@@ -10,10 +10,12 @@ spec:
   matchConditions:
     - name: default-exception
       expression: >-
+        request.namespace != 'kyverno' &&
         request.namespace != 'kube-system' &&
         request.namespace != 'monitoring' &&
         request.namespace != 'metallb-system' &&
-        request.namespace != 'traefik' &&
+        request.namespace != 'argocd' &&
+        request.namespace != 'traefik'
   matchConstraints:
     resourceRules:
       - apiGroups: [""]
@@ -23,8 +25,6 @@ spec:
           - UPDATE
         resources:
           - pods
-        resourceNames:
-          - nginx
   validations:
     - message: "label 'owner' is required"
       expression: "'owner' in object.metadata.?labels.orValue([])"

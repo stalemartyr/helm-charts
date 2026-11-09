@@ -1,0 +1,70 @@
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: verify-cosign-images
+spec:
+  variables:
+    - name: cosignPublicKey
+      expression: >-
+        string(base64.decode(
+          resource.Get(
+            "v1",
+            "secrets",
+            "kyverno",
+            "cosign.pub"
+          ).data["cosign_pub"]
+        ))
+  evaluation:
+    background:
+      enabled: false
+
+  validationActions:
+    - Deny
+
+  matchConditions:
+    - name: default-exception
+      expression: >-
+        request.namespace == 'upclass-prd01' || 
+        request.namespace == 'upclass-dev01'
+
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+
+      # Deployments, StatefulSets, DaemonSets
+      - apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources:
+          - deployments
+          - statefulsets
+          - daemonsets
+
+      # Jobs and CronJobs
+      - apiGroups: ["batch"]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources:
+          - jobs
+          - cronjobs
+
+  matchImageReferences:
+    - glob: "*"
+    #- glob: "ghcr.io/stalemartyr/*"
+
+  attestors:
+    - name: cosign
+      cosign:
+        key:
+          expression: variables.cosignPublicKey
+
+  validations:
+    - expression: >-
+        images.containers.map(
+          image,
+          verifyImageSignatures(image, [attestors.cosign])
+        ).all(result, result > 0)
+      message: "Container image must have a valid Cosign signature."
