@@ -1,0 +1,83 @@
+global:
+  image:
+    registry: ghcr.io
+
+kyverno:
+  # Admission controller configuration
+  admissionController:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 250m
+        memory: 384Mi
+      limits:
+        memory: 768Mi
+
+  # Background controller for generate and mutate existing
+  backgroundController:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+
+  # Cleanup controller for policy report cleanup
+  cleanupController:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+
+  # Reports controller
+  reportsController:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+
+  # Exclude namespaces from policy enforcement
+  config:
+    webhooks:
+      - objectSelector:
+          matchExpressions:
+            - key: kyverno.io/managed-by
+              operator: DoesNotExist
+    excludeGroups:
+      - system:serviceaccounts:kyverno
+      - system:serviceaccounts:argocd
+    resourceFilters:
+      - "[Event,*,*]"
+      - "[*/*,kube-system,*]"
+      - "[*/*,kube-public,*]"
+      - "[*/*,kube-node-lease,*]"
+      - "[*/*,argocd,*]"
+
+  # Features
+  features:
+    # Start with Ignore for safety, switch to Fail once stable
+    forceFailurePolicyIgnore:
+      enabled: true
+    policyExceptions:
+      enabled: true
+      namespace: "kyverno"
+    reporting:
+      validatingAdmissionPolicyReports:
+        enabled: false
+
+  # CRDs
+  crds:
+    install: true
+
+  # ServiceMonitor
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      release: kube-prometheus-stack
