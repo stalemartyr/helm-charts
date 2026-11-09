@@ -81,6 +81,3 @@ kyverno:
     enabled: true
     additionalLabels:
       release: kube-prometheus-stack
-
-existingImagePullSecrets:
-  - ghcr-secret
