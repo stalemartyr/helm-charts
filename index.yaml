@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    appVersion: 0.0.6.0
+    created: "2026-11-10T02:28:39.087359898Z"
+    description: A Helm chart for Kubernetes
+    digest: af576ed35a58d147f7454ac35254653f4f893eaa347c8d9ed9c179327e7f673e
+    name: app
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/app-0.0.5/app-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
     appVersion: 0.0.0.1
     created: "2026-01-05T15:04:39.467776825Z"
     description: A Helm chart for Kubernetes
@@ -42,6 +52,16 @@ entries:
     - https://github.com/stalemartyr/helm-charts/releases/download/app-0.0.1/app-0.0.1.tgz
     version: 0.0.1
   beat:
+  - apiVersion: v2
+    appVersion: 0.0.6.0
+    created: "2026-11-10T02:28:39.290591462Z"
+    description: A Helm chart for Mailerr Beat
+    digest: 8e49c3b148944900daaca384afcadb42c3e0e1a58fbc268544a8e640d6d26efb
+    name: beat
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/beat-0.0.3/beat-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v2
     appVersion: 0.0.0.1
     created: "2025-11-12T17:16:00.012760726Z"
@@ -1998,6 +2018,16 @@ entries:
     version: 0.0.1
   worker:
   - apiVersion: v2
+    appVersion: 0.0.6.0
+    created: "2026-11-10T02:28:39.489554652Z"
+    description: A Helm chart for Kubernetes
+    digest: 344b374ad671a5fa52e2c7da932e385d33cec08f7014a02bc74014468963a7d7
+    name: worker
+    type: application
+    urls:
+    - https://github.com/stalemartyr/helm-charts/releases/download/worker-0.0.4/worker-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
     appVersion: 0.0.0.1
     created: "2026-01-05T15:13:29.695546373Z"
     description: A Helm chart for Kubernetes
@@ -2027,4 +2057,4 @@ entries:
     urls:
     - https://github.com/stalemartyr/helm-charts/releases/download/worker-0.0.1/worker-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-05T15:13:29.695757195Z"
+generated: "2026-11-10T02:28:39.489693188Z"
