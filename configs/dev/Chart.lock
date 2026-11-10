@@ -4,16 +4,16 @@ dependencies:
   version: 0.0.3
 - name: app
   repository: https://stalemartyr.github.io/helm-charts
-  version: 0.0.4
+  version: 0.0.5
 - name: beat
   repository: https://stalemartyr.github.io/helm-charts
-  version: 0.0.2
+  version: 0.0.3
 - name: flower
   repository: https://stalemartyr.github.io/helm-charts
   version: 0.0.2
 - name: worker
   repository: https://stalemartyr.github.io/helm-charts
-  version: 0.0.3
+  version: 0.0.4
 - name: mailerr-app
   repository: https://stalemartyr.github.io/helm-charts
   version: 0.0.4
@@ -23,5 +23,5 @@ dependencies:
 - name: mailerr-beat
   repository: https://stalemartyr.github.io/helm-charts
   version: 0.0.3
-digest: sha256:5fa5cd0a7115e0756c095735a25ed82ff3a00b8c61e3619cec1b94823891d860
-generated: "2026-01-06T02:16:49.699604+08:00"
+digest: sha256:451b5ec3c23a79b27a1a601e16005e587870e7fccfd2946517b3a54dcd94250d
+generated: "2026-11-10T10:31:20.723444+08:00"
