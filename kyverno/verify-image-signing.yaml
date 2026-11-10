@@ -14,6 +14,11 @@ spec:
             "cosign.pub"
           ).data["cosign_pub"]
         ))
+
+  credentials:
+    secrets:
+      - ghcr-secret
+
   evaluation:
     background:
       enabled: false
@@ -60,6 +65,8 @@ spec:
       cosign:
         key:
           expression: variables.cosignPublicKey
+        ctlog:
+          insecureIgnoreTlog: true
 
   validations:
     - expression: >-

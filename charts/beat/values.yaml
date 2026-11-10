@@ -5,12 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: docker.laniakea.local:8080/backend/worker
+  repository: ghcr.io/stalemartyr/backend/worker
   pullPolicy: Always
   tag: "latest"
 
 imagePullSecrets:
-  - name: regsecret
+  - name: ghcr-secret
 
 service:
   port: null

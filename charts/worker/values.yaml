@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: docker.laniakea.local:8080/backend/worker
+  repository: ghcr.io/stalemartyr/backend/worker
   pullPolicy: Always
   tag: "latest"
 
@@ -106,7 +106,7 @@ readinessProbe:
     command:
       - sh
       - -c
-      - "celery -A celery_app inspect ping -d celery@$HOSTNAME --timeout=5 2>&1 | grep -q 'pong'"
+      - "celery -A worker.celery inspect ping -d celery@$HOSTNAME --timeout=5 2>&1 | grep -q 'pong'"
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 10
@@ -119,7 +119,7 @@ startupProbe:
     command:
       - sh
       - -c
-      - "celery -A celery_app inspect active_queues -d celery@$HOSTNAME | grep -q ."
+      - "celery -A worker.celery inspect active_queues -d celery@$HOSTNAME | grep -q ."
   initialDelaySeconds: 0
   periodSeconds: 10
   timeoutSeconds: 5

@@ -5,6 +5,8 @@ global:
 kyverno:
   # Admission controller configuration
   admissionController:
+    metricsService:
+      create: true
     replicas: 1
     resources:
       requests:
@@ -15,6 +17,8 @@ kyverno:
 
   # Background controller for generate and mutate existing
   backgroundController:
+    metricsService:
+      create: true
     replicas: 1
     resources:
       requests:
@@ -25,6 +29,8 @@ kyverno:
 
   # Cleanup controller for policy report cleanup
   cleanupController:
+    metricsService:
+      create: true
     replicas: 1
     resources:
       requests:
@@ -35,6 +41,8 @@ kyverno:
 
   # Reports controller
   reportsController:
+    metricsService:
+      create: true
     replicas: 1
     resources:
       requests:

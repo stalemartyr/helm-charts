@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: docker.laniakea.local:8080/backend/server
+  repository: ghcr.io/stalemartyr/backend/server
   pullPolicy: Always
   tag: "latest"
 

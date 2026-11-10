@@ -1,0 +1,52 @@
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: verify-cosign-key
+spec:
+  variables:
+    - name: cosignPublicKey
+      expression: >-
+        string(base64.decode(
+          resource.Get(
+            "v1",
+            "secrets",
+            "kyverno",
+            "cosign.pub"
+          ).data["cosign_pub"]
+        ))
+
+  credentials:
+    secrets:
+      - ghcr-secret
+
+  validationActions:
+    - Deny
+  failurePolicy: Fail
+  webhookConfiguration:
+    timeoutSeconds: 30
+  evaluation:
+    background:
+      enabled: false
+  matchConditions:
+    - name: only-in-kyverno-test-namespace
+      expression: request.namespace == 'upclass-dev01'
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  matchImageReferences:
+    - glob: "*"
+  #  - glob: "ghcr.io/stalemartyr/backend/server:*"
+  attestors:
+    - name: cosign
+      cosign:
+        key:
+          expression: variables.cosignPublicKey
+        ctlog:
+          insecureIgnoreTlog: true
+  validations:
+    - expression: >-
+        images.containers.map(image, verifyImageSignatures(image, [attestors.cosign])).all(e, e > 0)
+      message: image signature does not match cosign.pub
