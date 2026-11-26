@@ -19,7 +19,7 @@ command: []
 args:
   - celery
   - -A
-  - celery_beat
+  - beat.celery
   - beat
   - --loglevel=info
 
@@ -34,7 +34,7 @@ env:
   - name: DB_PORT
     value: "3306"
   - name: DB_NAME
-    value: "upclass"
+    value: "upclass_fastapi"
   - name: VAULT_ADDR
     value: "http://192.168.254.7:8300"
   - name: VAULT_ROLE_ID
@@ -47,6 +47,7 @@ env:
     value: "upclass-edu.web.app"
   - name: ENV
     value: "prod"
+
   - name: GEOLOCATION_PATTERN
     value: "http://192.168.254.25:8080/reverse?format=json&lat={LATITUDE}&lon={LONGITUDE}&zoom=18&addressdetails=1"
   - name: C_FORCE_ROOT

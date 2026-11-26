@@ -14,21 +14,21 @@ imagePullSecrets:
 
 service:
   type: ClusterIP
-  port: 5000
+  port: 8888
 
 env:
-  - name: FLASK_ENV
-    value: "production"
   - name: TZ
     value: "UTC"
   - name: LOG_LEVEL_APP
     value: "ERROR"
+  - name: LOG_DIR_APP
+    value: "/logs/application"
   - name: DB_HOST
     value: "192.168.254.8"
   - name: DB_PORT
     value: "3306"
   - name: DB_NAME
-    value: "upclass"
+    value: "upclass_fastapi"
   - name: VAULT_ADDR
     value: "http://192.168.254.7:8300"
   - name: VAULT_ROLE_ID
