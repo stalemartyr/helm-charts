@@ -1,0 +1,64 @@
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-deployment-resources
+  annotations:
+    policies.kyverno.io/title: Required Resources LimitRange/ResourceQuota
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/description: >-
+      All Deployment containers must define CPU and memory
+      requests and limits.
+spec:
+  evaluation:
+    background:
+      enabled: true
+
+  validationActions:
+    - Audit
+    - Warn
+  matchConditions:
+    - name: exclude-system-namespaces
+      expression: "!(request.namespace in ['kube-system', 'kube-node-lease'])"
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: 
+        - CREATE
+        - UPDATE
+        resources: 
+          - pods
+      - apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        operations: 
+        - CREATE
+        - UPDATE
+        resources: 
+          - deployments
+          - replicasets
+
+  variables:
+    - name: allContainers
+      expression: >-
+        object.kind == 'Pod'
+        ? object.spec.containers +
+          object.spec.?initContainers.orValue([])
+        : object.spec.template.spec.containers +
+          object.spec.template.spec.?initContainers.orValue([])
+
+  validations:
+    - expression: >-
+        variables.allContainers.all(c,
+          has(c.resources) &&
+          has(c.resources.requests) &&
+          has(c.resources.requests.cpu) &&
+          has(c.resources.requests.memory) &&
+          has(c.resources.limits) &&
+          has(c.resources.limits.cpu) &&
+          has(c.resources.limits.memory)
+        )
+      message: >-
+        All containers must define CPU and memory
+        requests and limits.

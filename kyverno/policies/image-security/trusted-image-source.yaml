@@ -1,0 +1,49 @@
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: trusted-image-source
+  annotations:
+    policies.kyverno.io/title: Trusted Image Source
+    policies.kyverno.io/category: Image Security
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/description: >-
+      Container images must be sourced from docker.io or quay.io
+spec:
+  validationActions:
+    - Audit
+    - Warn
+    #- Deny
+  matchConditions:
+    - name: exclude-system-namespaces
+      expression: "!(request.namespace in ['kube-system', 'kube-public', 'kube-node-lease'])"
+  matchConstraints:
+    resourceRules:
+      - apiGroups: ['']
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+  variables:
+    - name: trustedRegistries
+      expression: >- 
+        [
+          'docker.io/', 
+          'quay.io/', 
+          'registry.crowdstrike.com/', 
+          'ghcr.io/', 
+          'public.ecr.aws/',
+          'registry.k8s.io/',
+          '343866166964.dkr.ecr.us-east-1.amazonaws.com/',
+        ]
+  validations:
+    - message: "Container images must be from a trusted registry"
+      expression: >-
+        object.spec.containers.all(c,
+          variables.trustedRegistries.exists(r, c.image.startsWith(r)) ||
+          !c.image.matches('^[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?/'))
+    - message: "Init container images must be from a trusted registry"
+      expression: >-
+        !has(object.spec.initContainers) ||
+        object.spec.initContainers.all(c,
+          variables.trustedRegistries.exists(r, c.image.startsWith(r)) ||
+          !c.image.matches('^[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?/'))

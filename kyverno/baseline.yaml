@@ -1,0 +1,330 @@
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: verify-cosign-images
+spec:
+  attestors:
+  - cosign:
+      ctlog:
+        insecureIgnoreTlog: true
+      key:
+        expression: variables.cosignPublicKey
+    name: cosign
+  credentials:
+    secrets:
+    - ghcr-secret
+  evaluation:
+    background:
+      enabled: false
+  matchConditions:
+  - expression: request.namespace == 'upclass-prd01' ||  request.namespace == 'upclass-dev01'
+    name: default-exception
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+    - apiGroups:
+      - apps
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - deployments
+      - statefulsets
+      - daemonsets
+    - apiGroups:
+      - batch
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - jobs
+      - cronjobs
+  matchImageReferences:
+  - glob: '*'
+  validationActions:
+  - Deny
+  validations:
+  - expression: |-
+      images.containers.map(
+
+        image,
+        verifyImageSignatures(image, [attestors.cosign])
+      ).all(result, result > 0)
+    message: Container image must have a valid Cosign signature.
+  variables:
+  - expression: |-
+      string(base64.decode(
+
+        resource.Get(
+          "v1",
+          "secrets",
+          "kyverno",
+          "cosign.pub"
+        ).data["cosign_pub"]
+      ))
+    name: cosignPublicKey
+---
+apiVersion: policies.kyverno.io/v1
+kind: MutatingPolicy
+metadata:
+  name: inject-user-metadata
+spec:
+  evaluation:
+    admission:
+      enabled: true
+    mutateExisting:
+      enabled: false
+  matchConditions:
+  - expression: request.userInfo.username != ''
+    name: has-username
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      resources:
+      - pods
+  mutations:
+  - applyConfiguration:
+      expression: |
+        Object{
+
+          metadata: Object.metadata{
+            annotations: {
+              "kyverno.io/created-by":
+                request.userInfo.username
+            }
+          }
+        }
+    patchType: ApplyConfiguration
+---
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/category: Security
+    policies.kyverno.io/description: Prevents hardcoded secrets in env vars, command
+      args, annotations, and labels
+    policies.kyverno.io/severity: critical
+    policies.kyverno.io/title: No Hardcoded Secrets
+  name: no-hardcoded-secrets
+spec:
+  matchConditions:
+  - expression: '!(request.namespace in [''kube-system'', ''kube-public'', ''kube-node-lease''])'
+    name: exclude-system-namespaces
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+  validationActions:
+  - Audit
+  - Warn
+  validations:
+  - expression: |-
+      object.spec.containers.all(c,
+
+        !has(c.env) || c.env.all(e,
+          e.name in variables.allowedEnvVars ||
+          !e.name.matches(variables.secretPattern) || !has(e.value)))
+    message: Hardcoded secrets in env vars are not allowed, use secretKeyRef or configMapKeyRef
+  - expression: |-
+      object.spec.containers.all(c,
+
+        (!has(c.args) || c.args.all(a,
+          !a.matches('(?i)--(password|secret|token|key|credential|apikey|auth)[=\\s]'))) &&
+        (!has(c.command) || c.command.all(cmd,
+          !cmd.matches('(?i)--(password|secret|token|key|credential|apikey|auth)[=\\s]'))))
+    message: Potential secrets in container args or command
+  - expression: |-
+      !has(object.metadata.annotations) || object.metadata.annotations.all(k,
+
+        !k.matches(variables.secretPattern))
+    message: Potential secrets in annotations
+  - expression: |-
+      !has(object.metadata.labels) || object.metadata.labels.all(k,
+
+        !k.matches(variables.secretPattern))
+    message: Potential secrets in labels
+  variables:
+  - expression: '''(?i).*(password|secret|token|key|credential|passwd|apikey|auth).*'''
+    name: secretPattern
+  - expression: '[''AWS_WEB_IDENTITY_TOKEN_FILE'', ''AWS_ROLE_ARN'']'
+    name: allowedEnvVars
+---
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/description: All Deployment containers must define CPU and
+      memory requests and limits.
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Required Resources LimitRange/ResourceQuota
+  name: require-deployment-resources
+spec:
+  evaluation:
+    background:
+      enabled: true
+  matchConditions:
+  - expression: '!(request.namespace in [''kube-system'', ''kube-node-lease''])'
+    name: exclude-system-namespaces
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+    - apiGroups:
+      - apps
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - deployments
+      - replicasets
+  validationActions:
+  - Audit
+  - Warn
+  validations:
+  - expression: |-
+      variables.allContainers.all(c,
+
+        has(c.resources) &&
+        has(c.resources.requests) &&
+        has(c.resources.requests.cpu) &&
+        has(c.resources.requests.memory) &&
+        has(c.resources.limits) &&
+        has(c.resources.limits.cpu) &&
+        has(c.resources.limits.memory)
+      )
+    message: All containers must define CPU and memory requests and limits.
+  variables:
+  - expression: |-
+      object.kind == 'Pod' ? object.spec.containers +
+
+        object.spec.?initContainers.orValue([])
+      : object.spec.template.spec.containers +
+
+        object.spec.template.spec.?initContainers.orValue([])
+    name: allContainers
+---
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/description: All Deployment containers must define proper
+      labels
+    policies.kyverno.io/severity: low
+    policies.kyverno.io/title: Required Deployment Metadata
+  name: required-pod-labels
+spec:
+  matchConditions:
+  - expression: request.namespace != 'kyverno' && request.namespace != 'kube-system'
+      && request.namespace != 'monitoring' && request.namespace != 'metallb-system'
+      && request.namespace != 'argocd' && request.namespace != 'traefik'
+    name: exclude-system-namespaces
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+    - apiGroups:
+      - apps
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - deployments
+      - replicasets
+  validationActions:
+  - Audit
+  - Warn
+  validations:
+  - expression: '''owner'' in object.metadata.?labels.orValue([])'
+    message: label 'owner' is required
+  - expression: '''team'' in object.metadata.?labels.orValue([])'
+    message: label 'team' is required
+---
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/category: Image Security
+    policies.kyverno.io/description: Container images must be sourced from docker.io
+      or quay.io
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Trusted Image Source
+  name: trusted-image-source
+spec:
+  matchConditions:
+  - expression: '!(request.namespace in [''kube-system'', ''kube-public'', ''kube-node-lease''])'
+    name: exclude-system-namespaces
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+  validationActions:
+  - Audit
+  - Warn
+  validations:
+  - expression: |-
+      object.spec.containers.all(c,
+
+        variables.trustedRegistries.exists(r, c.image.startsWith(r)) ||
+        !c.image.matches('^[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?/'))
+    message: Container images must be from a trusted registry
+  - expression: |-
+      !has(object.spec.initContainers) || object.spec.initContainers.all(c,
+
+        variables.trustedRegistries.exists(r, c.image.startsWith(r)) ||
+        !c.image.matches('^[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?/'))
+    message: Init container images must be from a trusted registry
+  variables:
+  - expression: "[\n  'docker.io/', \n  'quay.io/', \n  'registry.crowdstrike.com/',
+      \n  'ghcr.io/', \n  'public.ecr.aws/',\n  'registry.k8s.io/',\n  '343866166964.dkr.ecr.us-east-1.amazonaws.com/',\n]"
+    name: trustedRegistries

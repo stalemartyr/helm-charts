@@ -1,0 +1,46 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: required-pod-labels
+  annotations:
+    policies.kyverno.io/title: Required Deployment Metadata
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/severity: low
+    policies.kyverno.io/description: >-
+      All Deployment containers must define proper labels
+spec:
+  validationActions:
+    - Audit
+    - Warn
+    #- Deny
+  matchConditions:
+    - name: exclude-system-namespaces
+      expression: >-
+        request.namespace != 'kyverno' &&
+        request.namespace != 'kube-system' &&
+        request.namespace != 'monitoring' &&
+        request.namespace != 'metallb-system' &&
+        request.namespace != 'argocd' &&
+        request.namespace != 'traefik'
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+      - apiGroups: ["apps"]
+        apiVersions: [v1]
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - deployments
+          - replicasets
+  validations:
+    - message: "label 'owner' is required"
+      expression: "'owner' in object.metadata.?labels.orValue([])"
+    - message: "label 'team' is required"
+      expression: "'team' in object.metadata.?labels.orValue([])"
